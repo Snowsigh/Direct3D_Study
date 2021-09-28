@@ -1,37 +1,23 @@
 #include "Sample.h"
 
+GAME(KGCA, 1200, 500);
 
-int APIENTRY wWinMain(
-    _In_ HINSTANCE hInstance,
-    _In_opt_ HINSTANCE hPrevInstance,
-    _In_ LPWSTR    lpCmdLine,
-    _In_ int       nCmdShow)
+bool	Sample::Init()
 {
-    Sample g_Sample;
-    g_Sample.InitWindow(
-        hInstance,
-        nCmdShow,
-        L"CreateWindows");
-    g_Sample.Run();
-    //MessageBox(NULL, L"Exit", L"Click", MB_OK);
+    return true;
+}
+bool	Sample::Frame()
+{
+
+    return true;
+}
+bool	Sample::Render()
+{
+    return true;
+}
+bool	Sample::Release()
+{
+    return true;
 }
 
-bool Sample::Init()
-{
-    return false;
-}
 
-bool Sample::Frame()
-{
-    return false;
-}
-
-bool Sample::Render()
-{
-    return false;
-}
-
-bool Sample::Release()
-{
-    return false;
-}

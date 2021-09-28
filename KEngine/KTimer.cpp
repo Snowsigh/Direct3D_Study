@@ -25,12 +25,7 @@ bool KTimer::Frame()
 		m_iTmpCounter = 0;
 		fpsTime -= 1.0f;
 
-		TCHAR timerString[MAX_PATH] = { 0, };
-		_stprintf_s(timerString,
-			L"\nFPS=%d:Timer=%10.4f",
-			m_iFPS,
-			m_fGameTimer);
-		OutputDebugString(timerString);
+		
 
 	}
 

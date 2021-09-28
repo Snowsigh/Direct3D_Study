@@ -161,6 +161,7 @@ copy "*.h" "..\\..\\Include\\"
     <ClCompile Include="KInput.cpp" />
     <ClCompile Include="KTimer.cpp" />
     <ClCompile Include="KWindow.cpp" />
+    <ClCompile Include="KWrite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KCore.h" />
@@ -169,6 +170,7 @@ copy "*.h" "..\\..\\Include\\"
     <ClInclude Include="KStd.h" />
     <ClInclude Include="KTimer.h" />
     <ClInclude Include="KWindow.h" />
+    <ClInclude Include="KWrite.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

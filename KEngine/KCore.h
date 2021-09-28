@@ -3,6 +3,8 @@
 #include "KWindow.h"
 #include "KTimer.h"
 #include "KInput.h"
+#include "KStd.h"
+
 class KCore : public KWindow
 {
 
@@ -15,7 +17,7 @@ private:
 public:
 	KDevice m_kDevice;
 	KTimer m_kTimer;
-	KInPut m_kInput;
+	//KInPut m_kInput;
 public:
 	virtual bool	Init();
 	virtual bool	Frame();

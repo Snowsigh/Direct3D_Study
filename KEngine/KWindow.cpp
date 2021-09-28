@@ -24,7 +24,7 @@ LRESULT  KWindow::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-bool KWindow::InitWindow(HINSTANCE hInstance, int nCmdShow, const WCHAR* strWindowTitle)
+bool KWindow::InitWindow(HINSTANCE hInstance, int nCmdShow, const WCHAR* strWindowTitle, int iWidth, int iHeight)
 {
     m_hInstance = hInstance;
 
@@ -42,7 +42,7 @@ bool KWindow::InitWindow(HINSTANCE hInstance, int nCmdShow, const WCHAR* strWind
     {
         return false;
     }
-    RECT rc = { 0, 0, 1024, 768 };
+    RECT rc = { 0, 0, iWidth, iHeight};
     // 작업영역(  타이틀 바/경계선/메뉴/스크롤 바 등의 영역을 제외한 영역), 윈도우 스타일, 메뉴여부
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
     // 윈도우 생성 함수

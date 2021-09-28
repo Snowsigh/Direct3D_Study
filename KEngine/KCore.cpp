@@ -11,13 +11,14 @@ bool	KCore::GameInit()
   
     KDevice::SetDevice();
     m_kTimer.Init();
-
+    g_Input.Init();
     Init();
     return true;
 }
 bool	KCore::GameFrame()
 {
     m_kTimer.Frame();
+    g_Input.Frame();
     Frame();
     return true;
 }
@@ -25,6 +26,7 @@ bool	KCore::GameRender()
 {
     PreRender();
     m_kTimer.Render();
+    g_Input.Render();
     Render();
     PostRender();
     return true;
@@ -32,6 +34,8 @@ bool	KCore::GameRender()
 bool	KCore::GameRelease()
 {
     m_kTimer.Release();
+    g_Input.Release();
+    CleanupDevice();
     Release();
     return true;
 }
@@ -51,6 +55,7 @@ bool	KCore::PreRender(){
     return true;
 }
 bool	KCore::Render() {
+    
     return true;
 }
 bool	KCore::PostRender() {

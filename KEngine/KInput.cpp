@@ -58,11 +58,11 @@ bool KInPut::Frame()
 
 bool KInPut::Render()
 {
-    //TCHAR timerString[MAX_PATH] = { 0, };
-    //_stprintf_s(timerString,
-    //    L"\nx=%d:y%d",
-    //    m_ptPos.x, m_ptPos.y);
-    //OutputDebugString(timerString);
+    TCHAR timerString[MAX_PATH] = { 0, };
+    _stprintf_s(timerString,
+        L"\nx=%d:y%d",
+        m_ptPos.x, m_ptPos.y);
+    OutputDebugString(timerString);
     return true;
 }
 
