@@ -67,3 +67,17 @@ bool	KCore::PostRender() {
 bool	KCore::Release() {
     return true;
 }
+bool KCore::Run()
+{
+    GameInit();
+    while (1)
+    {
+        if (!MsgRun())
+        {
+            break;
+        }
+        GameRun();
+    }
+    GameRelease();
+    return true;
+}

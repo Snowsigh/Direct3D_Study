@@ -75,40 +75,26 @@ bool KWindow::InitWindow(HINSTANCE hInstance, int nCmdShow, const WCHAR* strWind
     return true;
 
 }
-bool KWindow::GameInit()
+bool KWindow::MsgRun()
 {
-    return true;
-}
-bool KWindow::GameRun()
-{
-    return true;
-}
-bool KWindow::GameRelease()
-{
-    return true;
-}
-bool KWindow::Run()
-{
-    GameInit();
     MSG msg;
-    while (m_bGameRun)
+    while (1)
     {
         if (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
         {
             if (msg.message == WM_QUIT)
             {
-                break;
+                return false;
             }
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
         else
         {
-            m_bGameRun = GameRun();
+            return true;
         }
     }
-    GameRelease();
-    return true;
+    
 }
 KWindow::KWindow(void) : m_bGameRun(true)
 {

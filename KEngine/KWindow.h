@@ -14,10 +14,7 @@ public:
 	bool InitWindow(HINSTANCE hInstance, int nCmdShow, const WCHAR* strWindowTitle, int iWidth, int iHeight);
 	LRESULT MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 public:
-	bool Run();
-	virtual bool GameInit();
-	virtual bool GameRun();
-	virtual bool GameRelease();
+	bool MsgRun();
 
 public:
 	KWindow(void);
