@@ -1,0 +1,13 @@
+// ¹öÅØ½º -> SV_POSITION
+struct VS_OUT
+{
+	float4 p : SV_POSITION;
+	float4 c : COLOR0;
+};
+VS_OUT VertexS(float3 p: POSI, float4 c : COLOR  ) 
+{
+	VS_OUT output = (VS_OUT)0;
+	output.p = float4(p,1.0f);
+	output.c = c;
+	return output;
+}

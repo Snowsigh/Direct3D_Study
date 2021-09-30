@@ -5,6 +5,7 @@
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 
+
 class KDevice 
 {
 public:
@@ -18,6 +19,7 @@ public:
 	D3D_DRIVER_TYPE			m_DriverType;		// 디바이스 타입
 	D3D_FEATURE_LEVEL       m_FeatureLevel;		// DirectX의 기능수준
 
+	
 public:
 	void DX_CHECK(HRESULT hr, const TCHAR* funtion);
 	HRESULT	CreateDevice();

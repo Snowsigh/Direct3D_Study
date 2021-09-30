@@ -13,6 +13,7 @@ public:
 	int m_iFPS;
 	float m_fSPF;
 	float m_fGameTimer;
+	TCHAR m_szTimerString[MAX_PATH] = { 0, };
 	
 public:
 	bool Init();

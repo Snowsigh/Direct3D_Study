@@ -3,6 +3,8 @@
 #include "KWindow.h"
 #include "KTimer.h"
 #include "KInput.h"
+#include "KWrite.h"
+#include "KVertex.h"
 #include "KStd.h"
 
 class KCore : public KWindow
@@ -15,8 +17,12 @@ private:
 	bool	GameRender();
 	bool	GameRelease();
 public:
-	KDevice m_kDevice;
+
 	KTimer m_kTimer;
+	KWrite m_kWrite;
+	KVertex m_kVertex;
+	
+	bool		m_bDebugText = false;
 	//KInPut m_kInput;
 public:
 	bool Run();

@@ -1,6 +1,6 @@
 #include "Sample.h"
 
-GAME(KGCA, 1200, 500);
+GAME(KKOPROJECT, 800, 600);
 
 bool	Sample::Init()
 {

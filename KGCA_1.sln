@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestLib", "TestLib\TestLib.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "입실 퇴실 꼭 찍어라", "입실 퇴실 꼭 찍어라", "{23238899-643A-45F3-8FA8-3395DEAE2951}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VertexBuffer", "VertexBuffer\VertexBuffer.vcxproj", "{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -36,6 +38,14 @@ Global
 		{B8C4F900-9145-402B-9B90-68F0C8D884A9}.Release|x64.Build.0 = Release|x64
 		{B8C4F900-9145-402B-9B90-68F0C8D884A9}.Release|x86.ActiveCfg = Release|Win32
 		{B8C4F900-9145-402B-9B90-68F0C8D884A9}.Release|x86.Build.0 = Release|Win32
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Debug|x64.ActiveCfg = Debug|x64
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Debug|x64.Build.0 = Debug|x64
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Debug|x86.ActiveCfg = Debug|Win32
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Debug|x86.Build.0 = Debug|Win32
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Release|x64.ActiveCfg = Release|x64
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Release|x64.Build.0 = Release|x64
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Release|x86.ActiveCfg = Release|Win32
+		{E97D8AA5-F60B-45F5-82D5-1EEBB734ADCE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

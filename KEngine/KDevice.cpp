@@ -29,6 +29,8 @@ HRESULT KDevice::CreateDevice()
 			D3D11_SDK_VERSION, &m_pd3dDevice, &m_FeatureLevel,
 			&m_pImmediateContext);
 
+
+
 	return hr;
 }
 HRESULT KDevice::CreateGIFactory()

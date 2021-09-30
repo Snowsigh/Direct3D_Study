@@ -36,8 +36,10 @@ bool KTimer::Frame()
 }
 bool KTimer::Render()
 {
-
-	
+	_stprintf_s(m_szTimerString,
+		L"FPS=%d:Timer=%10.4f",
+		m_iFPS,
+		m_fGameTimer);
 
 	return true;
 }

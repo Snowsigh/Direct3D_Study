@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b8c4f900-9145-402b-9b90-68f0c8d884a9}</ProjectGuid>
-    <RootNamespace>TestLib</RootNamespace>
+    <ProjectGuid>{e97d8aa5-f60b-45f5-82d5-1eebb734adce}</ProjectGuid>
+    <RootNamespace>VertexBuffer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../OutPut</OutDir>
-    <IntDir>../../OutPut/TestLib</IntDir>
+    <IntDir>../../OutPut/VertexBuffer</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -144,10 +144,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="KVertexBuffer.h" />
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="TVector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="KVertexBuffer.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="TVector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ObjectData.txt" />

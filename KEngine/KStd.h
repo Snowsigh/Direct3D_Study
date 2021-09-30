@@ -7,6 +7,8 @@
 #include <string>
 #include <locale>
 #include <math.h>
+#include "TVector.h"
+
 
 #pragma comment(lib,"KEngine.lib")
 
