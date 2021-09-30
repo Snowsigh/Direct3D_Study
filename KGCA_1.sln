@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestLib", "TestLib\TestLib.
 		{A546440A-157C-4F7C-89BF-C930AFDFAD37} = {A546440A-157C-4F7C-89BF-C930AFDFAD37}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "입실 퇴실 꼭 찍어라", "입실 퇴실 꼭 찍어라", "{23238899-643A-45F3-8FA8-3395DEAE2951}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
