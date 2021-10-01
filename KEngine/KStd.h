@@ -7,7 +7,7 @@
 #include <string>
 #include <locale>
 #include <math.h>
-#include "TVector.h"
+#include "KMartrix.h"
 
 
 #pragma comment(lib,"KEngine.lib")
@@ -16,7 +16,7 @@
 #define GAMERUN(WindowName, Width, Height) {Sample g_Sample;g_Sample.InitWindow(hInstance,nCmdShow,	L#WindowName, Width, Height);g_Sample.Run();}
 #define GAME(WindowName, Width, Height) GAMEINIT GAMERUN(WindowName, Width, Height)
 
-
+extern float g_fGameTimer;
 extern float g_fSPF;
 extern HWND g_hWnd;
 extern RECT g_rtClient;

@@ -1,6 +1,6 @@
 #include "KTimer.h"
 float g_fSPF = 0.0f;
-
+float g_fGameTimer = 0.0f;
 bool KTimer::Init()
 {
 	QueryPerformanceCounter(&m_liFrame);
@@ -31,6 +31,8 @@ bool KTimer::Frame()
 
 	m_fGameTimer += m_fSPF;
 	m_liFrame = m_liCurrent;
+
+	g_fGameTimer = m_fGameTimer;
 
 	return true;
 }

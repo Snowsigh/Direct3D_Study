@@ -4,9 +4,9 @@
 #pragma comment(lib, "D3DCompiler.lib")
 struct SimpleVertex
 {
-	TVector3 pos;
-	TVector4 color;
-	SimpleVertex(TVector3 p, TVector4 c)
+	KVector3 pos;
+	KVector4 color;
+	SimpleVertex(KVector3 p, KVector4 c)
 	{
 		pos = p;
 		color = c;
@@ -21,8 +21,17 @@ struct SimpleVertex
 	float z;
 };
 
+struct KB_Data
+{
+	KMatrix matWorld;
+	KMatrix matView;
+	KMatrix matProj;
+};
+
+
 class KVertex
 {
+
 public:
 	
 	//--------------------------------------------------------------------------------------
@@ -43,6 +52,15 @@ public:
 	ID3D11DeviceContext* m_pContext;
 
 	std::vector<SimpleVertex> m_VertexList;
+
+	
+	ID3D11Buffer* m_pConstantBuffer;
+	float m_fSpeed;
+	KVector3 m_vCameraPos;
+	KVector3 m_vCameraTarget;
+	KB_Data m_kbData;
+
+
 public:
 	//--------------------------------------------------------------------------------------
 	// 정점 버퍼 생성
@@ -54,7 +72,7 @@ public:
 	HRESULT		LoadShaderAndInputLayout();
 	// 쉐이더 컴파일 및 생성 
 	HRESULT LoadShader();
-
+	HRESULT CreateConstantBuffer();
 	bool LoadObject(std::wstring filename);
 
 
@@ -67,7 +85,7 @@ public:
 
 
 public:
-	KVertex() : m_pVertexBuffer(nullptr), m_pVertexLayout(nullptr), m_pVS(nullptr), m_pPS(nullptr) {};
+	KVertex();
 	virtual ~KVertex() {};
 };
 

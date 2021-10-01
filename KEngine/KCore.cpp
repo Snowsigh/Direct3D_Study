@@ -27,6 +27,7 @@ bool	KCore::GameInit()
 }
 bool	KCore::GameFrame()
 {
+
     m_kTimer.Frame();
     g_Input.Frame();
     m_kWrite.Frame();
@@ -66,6 +67,7 @@ bool	KCore::GameRelease()
     m_kVertex.Release();
 
     CleanupDevice();
+
     Release();
     return true;
 }
@@ -79,7 +81,7 @@ bool	KCore::Frame() {
 }
 bool	KCore::PreRender(){
 
-    float ClearColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f }; //red,green,blue,alpha
+    float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; //red,green,blue,alpha
     m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, ClearColor);
 
     return true;

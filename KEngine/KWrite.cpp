@@ -21,7 +21,7 @@ HRESULT KWrite::CreateDeviceResources(IDXGISurface1* pSurface)
     if (FAILED(hr)) return hr;
 
     m_pRT->CreateSolidColorBrush(
-        D2D1::ColorF(D2D1::ColorF::Yellow),
+        D2D1::ColorF(D2D1::ColorF::Black),
         &m_pTextBrush);
     if (FAILED(hr)) return hr;
     return S_OK;

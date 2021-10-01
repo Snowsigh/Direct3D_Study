@@ -1,5 +1,6 @@
 #pragma once
 #include "KStd.h"
+#include "KInput.h"
 #include <d3d11.h>
 #include <dxgi.h>
 #pragma comment(lib,"d3d11.lib")

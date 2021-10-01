@@ -1,5 +1,7 @@
 #pragma once
 #include "KStd.h"
+#define g_Input KInPut::Get()
+
 enum  KeyState
 {
 	KEY_FREE = 0,
@@ -32,4 +34,3 @@ public:
 	~KInPut();
 };
 
-#define g_Input KInPut::Get()

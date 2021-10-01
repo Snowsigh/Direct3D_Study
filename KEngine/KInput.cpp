@@ -28,6 +28,7 @@ bool KInPut::Frame()
 
     for (int iKey = 0; iKey < 256; iKey++)
     {
+       
         SHORT sKey = GetAsyncKeyState(iKey);
         if (sKey & 0x8000)
         {
