@@ -1,7 +1,21 @@
-#include "KVertex.h"
+#include "KModel.h"
 
-
-bool KVertex::LoadObject(std::wstring filename)
+void KModel::SetMatrix(KMatrix* pMatWorld, KMatrix* pMatView, KMatrix* pMatProj)
+{
+    if (pMatWorld != nullptr)
+    {
+        m_kbData.matWorld = pMatWorld->Transpose();
+    }
+    if (pMatView != nullptr)
+    {
+        m_kbData.matView = pMatView->Transpose();
+    }
+    if (pMatProj != nullptr)
+    {
+        m_kbData.matProj = pMatProj->Transpose();
+    }
+}
+bool KModel::LoadObject(std::wstring filename)
 {
     FILE* FObject = nullptr;
     _tfopen_s(&FObject, filename.c_str(), _T("rt"));
@@ -33,18 +47,14 @@ bool KVertex::LoadObject(std::wstring filename)
 
     return true;
 }
-KVertex::KVertex()
+KModel::KModel()
 {
-    m_vCameraPos = { 0,0,-5.0f };
-    m_vCameraTarget = { 0,0,0 };
-    m_pConstantBuffer = nullptr;
-    m_fSpeed = 5.0f;
     m_pVertexBuffer = nullptr;
     m_pVertexLayout = nullptr;
     m_pVS = nullptr;
     m_pPS = nullptr;
 }
-HRESULT KVertex::CreateVertexBuffer()
+HRESULT KModel::CreateVertexBuffer()
 {
     HRESULT hr;
 
@@ -58,13 +68,13 @@ HRESULT KVertex::CreateVertexBuffer()
     ZeroMemory(&pInitData, sizeof(D3D11_SUBRESOURCE_DATA));
     pInitData.pSysMem = &m_VertexList.at(0);
 
-    hr = m_pDevice->CreateBuffer(&pDec, &pInitData, &m_pVertexBuffer);
+    hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pVertexBuffer);
     if (FAILED(hr)) return hr;
 
     return hr;
 }
 
-HRESULT KVertex::LoadShaderAndInputLayout()
+HRESULT KModel::LoadShaderAndInputLayout()
 {
     HRESULT hr;
 
@@ -81,14 +91,14 @@ HRESULT KVertex::LoadShaderAndInputLayout()
 
 
 
-    hr = m_pDevice->CreateInputLayout(pInputLayout, numLayout, m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), &m_pVertexLayout);
+    hr = g_pd3dDevice->CreateInputLayout(pInputLayout, numLayout, m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), &m_pVertexLayout);
     if (FAILED(hr)) return hr;
 
     m_pVStemp->Release();
 
     return hr;
 }
-HRESULT KVertex::CreateConstantBuffer()
+HRESULT KModel::CreateConstantBuffer()
 {
     HRESULT hr;
 
@@ -101,13 +111,13 @@ HRESULT KVertex::CreateConstantBuffer()
     ZeroMemory(&pInitData, sizeof(D3D11_SUBRESOURCE_DATA));
     pInitData.pSysMem = &m_kbData;
 
-    hr = m_pDevice->CreateBuffer(&pDec, &pInitData, &m_pConstantBuffer);
+    hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pConstantBuffer);
     if (FAILED(hr)) return hr;
 
     return hr;
 }
 
-HRESULT KVertex::LoadShader()
+HRESULT KModel::LoadShader()
 {
     HRESULT hr;
     ID3DBlob* error = nullptr;
@@ -129,11 +139,11 @@ HRESULT KVertex::LoadShader()
         return hr;
     }
 
-    hr = m_pDevice->CreatePixelShader(m_pPStemp->GetBufferPointer(), m_pPStemp->GetBufferSize(), NULL, &m_pPS);
+    hr = g_pd3dDevice->CreatePixelShader(m_pPStemp->GetBufferPointer(), m_pPStemp->GetBufferSize(), NULL, &m_pPS);
     if (FAILED(hr)) return hr;
     m_pPStemp->Release();
 
-    hr = m_pDevice->CreateVertexShader(m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), NULL, &m_pVS);
+    hr = g_pd3dDevice->CreateVertexShader(m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), NULL, &m_pVS);
     if (FAILED(hr)) return hr;
 
 
@@ -141,97 +151,63 @@ HRESULT KVertex::LoadShader()
     return hr;
 }
 
-bool	KVertex::Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+bool KModel::CreateVertexData()
 {
-    m_pDevice = pDevice;
-    m_pContext = pContext;
-    LoadObject(L"ObjectData.txt");
-    CreateVertexBuffer();
-    CreateConstantBuffer();
-    LoadShaderAndInputLayout();
-    
-    return true;
+    if (m_VertexList.size() > 0)
+    {
+        return true;
+    }
+    return false;
 }
-bool	KVertex::Frame()
+
+bool KModel::Init(ID3D11DeviceContext* pContext)
 {
-    if (g_Input.GetKey('W') >= KEY_PUSH)
+    m_pContext = pContext;
+    if (CreateVertexData())
     {
-        m_vCameraPos.z += m_fSpeed * g_fSPF;
+        CreateVertexBuffer();
+        CreateConstantBuffer();
+        LoadShaderAndInputLayout();
+        return true;
     }
-    if (g_Input.GetKey('S') >= KEY_HOLD)
-    {
-        m_vCameraPos.z -= m_fSpeed * g_fSPF;
-    }
-    if (g_Input.GetKey('A') >= KEY_PUSH)
-    {
-        m_vCameraPos.x -= m_fSpeed * g_fSPF;
-        m_vCameraTarget.x -= m_fSpeed * g_fSPF;
-    }
-    if (g_Input.GetKey('D') >= KEY_HOLD)
-    {
-        m_vCameraPos.x += m_fSpeed * g_fSPF;
-        m_vCameraTarget.x += m_fSpeed * g_fSPF;
-    }
-    if (g_Input.GetKey('Q') >= KEY_PUSH)
-    {
-        m_vCameraTarget.x -= m_fSpeed * g_fSPF;
-    }
-    if (g_Input.GetKey('E') >= KEY_HOLD)
-    {
-        m_vCameraTarget.x += m_fSpeed * g_fSPF;
-    }
-    if (g_Input.GetKey('V') >= KEY_PUSH)
-    {
-        m_vCameraTarget.y += m_fSpeed * g_fSPF;
-    }
-    if (g_Input.GetKey('C') >= KEY_HOLD)
-    {
-        m_vCameraTarget.y -= m_fSpeed * g_fSPF;
-    }
+    return false;
+}
+
+bool KModel::Frame()
+{
    
 
-    m_kbData.matWorld = KMatrix::RotationZ(g_fGameTimer);
-
-    KVector3 vUp = { 0,1,0.0f };
-    m_kbData.matView = KMatrix::ViewLookAt(
-        m_vCameraPos, m_vCameraTarget, vUp);
-    m_kbData.matProj = KMatrix::PerspectiveFovLH(1.0f,
-        100.0f, TBASIS_PI * 0.5f,
-        (float)g_rtClient.right / (float)g_rtClient.bottom);
-
-    m_kbData.matWorld = m_kbData.matWorld.Transpose();
-    m_kbData.matView = m_kbData.matView.Transpose();
-    m_kbData.matProj = m_kbData.matProj.Transpose();
-    m_pContext->UpdateSubresource(
-        m_pConstantBuffer, 0, NULL, &m_kbData, 0, 0);
-
     return true;
 }
-bool	KVertex::Render()
+
+bool KModel::Render()
 {
-    m_pContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
+    if (m_VertexList.size() <= 0) return true;
+
+    m_pContext->UpdateSubresource(
+        m_pConstantBuffer, 0, NULL, &m_kbData, 0, 0);
+    m_pContext->VSSetConstantBuffers(
+        0, 1, &m_pConstantBuffer);
     m_pContext->VSSetShader(m_pVS, NULL, 0);
     m_pContext->PSSetShader(m_pPS, NULL, 0);
     m_pContext->IASetInputLayout(m_pVertexLayout);
-
     UINT pStrides = sizeof(SimpleVertex);
     UINT pOffsets = 0;
-
-    m_pContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &pStrides, &pOffsets);
-    m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-    
+    m_pContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer,
+        &pStrides, &pOffsets);
+    m_pContext->IASetPrimitiveTopology(
+        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     m_pContext->Draw(m_VertexList.size(), 0);
-    return true;
+    return false;
+
 }
-bool	KVertex::Release()
+
+bool KModel::Release()
 {
     m_pVertexBuffer->Release();
     m_pVertexLayout->Release();
     m_pConstantBuffer->Release();
     m_pVS->Release();
     m_pPS->Release();
-    return true;
+    return false;
 }
-
-

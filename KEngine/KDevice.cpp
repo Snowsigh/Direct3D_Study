@@ -1,5 +1,5 @@
 #include "KDevice.h"
-
+ID3D11Device* g_pd3dDevice = nullptr;
 HRESULT hr;
 
 HRESULT KDevice::CreateDevice()
@@ -136,6 +136,7 @@ bool KDevice::SetDevice()
 	{
 		return false;
 	}
+	g_pd3dDevice = m_pd3dDevice;
 	if (FAILED(CreateSwapChain(g_hWnd,
 		g_rtClient.right,
 		g_rtClient.bottom)))

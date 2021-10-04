@@ -4,8 +4,10 @@
 #include "KTimer.h"
 #include "KInput.h"
 #include "KWrite.h"
-#include "KVertex.h"
 #include "KStd.h"
+#include "KMap.h"
+#include "KObject.h"
+#include "KCamara.h"
 
 class KCore : public KWindow
 {
@@ -20,7 +22,7 @@ public:
 
 	KTimer m_kTimer;
 	KWrite m_kWrite;
-	KVertex m_kVertex;
+	KModel m_kModel;
 	
 	bool		m_bDebugText = false;
 	//KInPut m_kInput;

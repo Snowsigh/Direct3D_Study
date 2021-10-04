@@ -29,7 +29,7 @@ bool KInPut::Frame()
     for (int iKey = 0; iKey < 256; iKey++)
     {
        
-        SHORT sKey = GetAsyncKeyState(iKey);
+      SHORT sKey = GetAsyncKeyState(iKey);
         if (sKey & 0x8000)
         {
             if (m_dwKeyState[iKey] == KEY_FREE)

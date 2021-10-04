@@ -58,6 +58,7 @@ namespace TBASIS_VECTOR {
 		// 원점으로 부터의 거리
 		float Length();
 		KVector3 Normal();
+		
 		float Angle(KVector3& v0);
 	};
 	class KVector4 : public float4

@@ -89,6 +89,8 @@ KVector3 KVector3::Normal()
 	return KVector3(x * invertLength, y * invertLength, z * invertLength);
 }
 
+
+
 float KVector3::Angle(KVector3& v0)
 {
 	float fLength1 = Length();
