@@ -33,6 +33,7 @@ public:
 	KB_Data m_kbData;
 
 	ID3D11Buffer* m_pVertexBuffer;
+	ID3D11Buffer* m_pIndexBuffer;
 	ID3D11Buffer* m_pConstantBuffer;
 
 	ID3D11InputLayout* m_pVertexLayout;
@@ -43,13 +44,15 @@ public:
 	ID3DBlob* m_pPStemp;
 
 	std::vector<SimpleVertex> m_VertexList;
-
+	std::vector<DWORD> m_IndexList;
 	ID3D11DeviceContext* m_pContext;
 	
 public:
 	void		SetMatrix(KMatrix* pMatWorld,
 		KMatrix* pMatView, KMatrix* pMatProj);
 	virtual bool	CreateVertexData();
+	virtual	bool CreateIndexData() ;
+	virtual	HRESULT CreateIndexBuffer() ;
 
 public:
 	HRESULT	CreateVertexBuffer() ;
@@ -62,7 +65,9 @@ public:
 
 	bool   Init(ID3D11DeviceContext* pContext);
 	bool   Frame();
-virtual	bool   Render();
+	bool   PreRender();
+	virtual	bool   Render();
+	bool PostRender();
 	bool   Release();
 	KModel();
 	virtual ~KModel() {};

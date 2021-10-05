@@ -2,9 +2,10 @@
 #include <KCore.h>
 class Sample : public KCore
 {
+public:
 	KCamera m_kCamera;
-	KBoxObject m_box;
 	KMap m_map;
+
 public:
 	bool	Init();
 	bool	Frame();

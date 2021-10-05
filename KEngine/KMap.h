@@ -16,6 +16,8 @@ public:
 public:
     bool Load(KMapinfo& pinfo);
     bool CreateVertexData() override;
+    bool CreateIndexData() override;
+    
 
 };
 

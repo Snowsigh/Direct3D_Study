@@ -19,6 +19,25 @@ struct float4x4
 class KMatrix : public float4x4
 {
 public:
+	
+	KMatrix ChanigeKT(TMatrix v0) 
+	{
+		KMatrix q;
+		q._11 = v0._11; q._12 = v0._12; q._13 = v0._13; q._14 = v0._14;
+		q._21 = v0._21; q._22 = v0._22; q._23 = v0._23; q._24 = v0._24;
+		q._31 = v0._31; q._32 = v0._32; q._33 = v0._33; q._34 = v0._34;
+		q._41 = v0._41; q._42 = v0._42; q._43 = v0._43; q._44 = v0._44;	
+		return q;
+	}
+	TMatrix ChanigeTK(KMatrix v0)
+	{
+		TMatrix q;
+		q._11 = v0._11; q._12 = v0._12; q._13 = v0._13; q._14 = v0._14;
+		q._21 = v0._21; q._22 = v0._22; q._23 = v0._23; q._24 = v0._24;
+		q._31 = v0._31; q._32 = v0._32; q._33 = v0._33; q._34 = v0._34;
+		q._41 = v0._41; q._42 = v0._42; q._43 = v0._43; q._44 = v0._44;
+		return q;
+	}
 
 	KMatrix()
 	{

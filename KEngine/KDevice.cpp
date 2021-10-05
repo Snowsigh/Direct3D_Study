@@ -39,6 +39,7 @@ HRESULT KDevice::CreateGIFactory()
 }
 HRESULT KDevice::CreateSwapChain(HWND hWnd, UINT iWidth, UINT iHeight)
 {
+	HRESULT hr;
 	DXGI_SWAP_CHAIN_DESC sd; //Backbuffer
 	ZeroMemory(&sd, sizeof(sd));
 	sd.BufferCount = 1;
@@ -53,7 +54,7 @@ HRESULT KDevice::CreateSwapChain(HWND hWnd, UINT iWidth, UINT iHeight)
 	sd.Windowed = TRUE;
 	
 	
-	return (m_pGIFactory->CreateSwapChain(m_pd3dDevice, &sd, &m_pSwapChain));
+	return m_pGIFactory->CreateSwapChain(m_pd3dDevice, &sd, &m_pSwapChain);
 }
 HRESULT	KDevice::SetRenderTargetView()
 {

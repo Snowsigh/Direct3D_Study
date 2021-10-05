@@ -15,9 +15,7 @@
 #include <d3dcompiler.h>
 #include "KMartrix.h"
 #include "SimpleMath.h"
-
-using namespace DirectX::SimpleMath;
-
+#include "TMath.h"
 
 
 #pragma comment(lib, "D3DCompiler.lib")
@@ -28,7 +26,7 @@ using namespace DirectX::SimpleMath;
 #pragma comment(lib,"KEngine.lib")
 #pragma comment(lib,"DirectXTK.lib")
 
-
+using namespace DirectX::SimpleMath;
 
 extern float g_fGameTimer;
 extern float g_fSPF;

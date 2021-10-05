@@ -24,7 +24,8 @@ KMatrix KCamera::CreateProjMatrix(float fNear, float fFar, float fFov, float fAs
 {
     m_matProj = KMatrix::PerspectiveFovLH(fNear, fFar, fFov, fAspect);
     return m_matProj;
-    return KMatrix();
+
+
 }
 
 bool KCamera::Init()
@@ -93,6 +94,30 @@ KCamera::KCamera()
     m_vCameraPos = { 0, 20, -20.0f };
     m_vCameraTarget = { 0, 0, 1.0f };
 }
+KMatrix KDebugCamera::Update(KVector4 vValue)
+{
+    TVector3 tmpPos = m_vCameraPos.ChanigeTK(m_vCameraPos);
+    TMatrix tmpMat = m_matView.ChanigeTK(m_matView);
+    TQuaternion q;
+    D3DXQuaternionRotationYawPitchRoll(&q, vValue.y, vValue.x, vValue.z);
+    TMatrix matRotation;
+    D3DXMatrixAffineTransformation(&matRotation, 1.0f, NULL, &q, &tmpPos);
+    D3DXMatrixInverse(&tmpMat, NULL, &matRotation);
+    m_vSide.x = m_matView._11;
+    m_vSide.y = m_matView._21;
+    m_vSide.z = m_matView._31;
+
+    m_vUp.x = m_matView._12;
+    m_vUp.y = m_matView._22;
+    m_vUp.z = m_matView._32;
+
+    m_vLook.x = m_matView._13;
+    m_vLook.y = m_matView._23;
+    m_vLook.z = m_matView._33;
+
+    KMatrix tmpRotation = tmpRotation.ChanigeKT(matRotation);
+    return tmpRotation;
+}
 
 bool KDebugCamera::Frame()
 {
@@ -134,7 +159,7 @@ bool KDebugCamera::Frame()
     m_vCameraTarget.z = vTarget.z;
 
 
-   
+
     m_matView = CreateViewMatrix(m_vCameraPos, m_vCameraTarget);
 
     m_vSide.x = m_matView._11;

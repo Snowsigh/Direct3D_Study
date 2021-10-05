@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <math.h>
-
+#include "TMath.h"
 #define TBASIS_EPSILON		((FLOAT)  0.001f)
 #define TBASIS_PI			((FLOAT)  3.141592654f)
 #define DegreeToRadian( degree ) ((degree) * (TBASIS_PI / 180.0f))
@@ -60,6 +60,10 @@ namespace TBASIS_VECTOR {
 		KVector3 Normal();
 		
 		float Angle(KVector3& v0);
+
+		TVector3 ChanigeTK(KVector3 v0);
+		KVector3 ChanigeKT(TVector3 v0);
+
 	};
 	class KVector4 : public float4
 	{
@@ -67,6 +71,8 @@ namespace TBASIS_VECTOR {
 		KVector4();
 		KVector4(const KVector4& v0);
 		KVector4(float fX, float fY, float fZ, float fW);
+		TVector4 ChanigeTK(KVector4 v0);
+		KVector4 ChanigeKT(TVector4 v0);
 	};
 
 	class KVector2 : public float2

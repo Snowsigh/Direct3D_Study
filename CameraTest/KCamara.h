@@ -2,6 +2,8 @@
 #include <KStd.h>
 #include <KMartrix.h>
 #include <KInput.h>
+#include <TMath.h>
+
 class KCamera
 {
 public:
@@ -24,13 +26,15 @@ public:
 	virtual bool		Render();
 	virtual bool		Release();
 public:
-	KCamera() ;
+	KCamera();
 	virtual ~KCamera() {};
 };
 class KDebugCamera : public KCamera
 {
 public:
 	virtual bool Frame() override;
+	virtual KMatrix Update(KVector4 vValue);
+
 };
 
 

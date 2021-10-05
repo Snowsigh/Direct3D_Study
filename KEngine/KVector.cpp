@@ -122,6 +122,8 @@ KVector4::KVector4(float fX, float fY, float fZ, float fW)
 }
 
 
+
+
 KVector2::KVector2()
 {
 	x = y = 0.0f;
@@ -137,4 +139,22 @@ KVector2::KVector2(float fX, float fY)
 {
 	x = fX;
 	y = fY;
+}
+
+TVector3 TBASIS_VECTOR::KVector3::ChanigeTK(KVector3 v0)
+{
+	TVector3 q; q.x = v0.x; q.y = v0.y; q.z = v0.z; return q;
+}
+KVector3 TBASIS_VECTOR::KVector3::ChanigeKT(TVector3 v0)
+{ 
+	KVector3 q; q.x = v0.x; q.y = v0.y; q.z = v0.z; return q;
+}
+
+TVector4 TBASIS_VECTOR::KVector4::ChanigeTK(KVector4 v0)
+{
+	TVector4 q; q.x = v0.x; q.y = v0.y; q.z = v0.z; q.w = v0.w; return q;
+}
+KVector4 TBASIS_VECTOR::KVector4::ChanigeKT(TVector4 v0)
+{
+	KVector4 q; q.x = v0.x; q.y = v0.y; q.z = v0.z; q.w = v0.w; return q;
 }

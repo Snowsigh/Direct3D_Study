@@ -9,7 +9,6 @@ bool	KCore::GameRun()
 bool	KCore::GameInit()
 {
     KDevice::SetDevice();
-    
     m_kTimer.Init();
     g_Input.Init();
     m_kWrite.Init();
