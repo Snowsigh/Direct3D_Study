@@ -1,6 +1,6 @@
 #include "KModel.h"
 
-void KModel::SetMatrix(KMatrix* pMatWorld, KMatrix* pMatView, KMatrix* pMatProj)
+void KModel::SetMatrix(TMatrix* pMatWorld, TMatrix* pMatView, TMatrix* pMatProj)
 {
     if (pMatWorld != nullptr)
     {
@@ -234,15 +234,15 @@ bool KModel::Render()
 {
     
     if (PreRender() == false) return false;
-    if (PostRender() == false) return false;
+    if (PostRender(m_IndexList.size()) == false) return false;
     return true;
 
 }
-bool KModel::PostRender()
+bool KModel::PostRender(UINT iNumIndex)
 {
     m_pContext->IASetPrimitiveTopology(
         D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    m_pContext->DrawIndexed(m_IndexList.size(), 0, 0);
+    m_pContext->DrawIndexed(iNumIndex, 0, 0);
     return true;
 }
 

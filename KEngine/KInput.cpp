@@ -33,8 +33,8 @@ LRESULT KInPut::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         OnBegin(iMouseX, iMouseY);
         return TRUE;
     case WM_LBUTTONUP:
-        ReleaseCapture();
         OnEnd();
+        ReleaseCapture();
         return TRUE;
         /*case WM_RBUTTONDOWN:
         case WM_RBUTTONUP:

@@ -1,39 +1,39 @@
 #pragma once
-#include <KStd.h>
-#include <KMartrix.h>
-#include <KInput.h>
-#include <TMath.h>
+#include "KStd.h"
+#include "KMartrix.h"
+#include "KInput.h"
 
 class KCamera
 {
 public:
 	float				m_pSpeed;
-	KVector3			m_vCameraPos;
-	KVector3			m_vCameraTarget;
-	KVector3			m_vLook;
-	KVector3			m_vSide;
-	KVector3			m_vUp;
+	TVector3			m_vCameraPos;
+	TVector3			m_vCameraTarget;
+	TVector3			m_vLook;
+	TVector3			m_vSide;
+	TVector3			m_vUp;
 public:
-	KMatrix m_matWorld;
-	KMatrix m_matView;
-	KMatrix m_matProj;
+	TMatrix m_matWorld;
+	TMatrix m_matView;
+	TMatrix m_matProj;
 public:
-	virtual KMatrix     CreateViewMatrix(KVector3 vPos, KVector3 vTarget, KVector3 vUp = KVector3(0, 1, 0));
-	virtual KMatrix  	CreateProjMatrix(float fNear, float fFar, float fFov, float fAspect);
+	virtual TMatrix     CreateViewMatrix(TVector3 vPos, TVector3 vTarget, TVector3 vUp = TVector3(0, 1, 0));
+	virtual TMatrix  	CreateProjMatrix(float fNear, float fFar, float fFov, float fAspect);
 public:
 	virtual bool		Init();
 	virtual bool		Frame();
 	virtual bool		Render();
 	virtual bool		Release();
+	
 public:
-	KCamera();
+	KCamera() ;
 	virtual ~KCamera() {};
 };
 class KDebugCamera : public KCamera
 {
 public:
 	virtual bool Frame() override;
-	virtual KMatrix Update(KVector4 vValue);
+	virtual TMatrix Update(KVector4 vValue);
 
 };
 

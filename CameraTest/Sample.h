@@ -13,10 +13,10 @@ public:
 	
 	
 public:
-	bool	Init();
-	bool	Frame();
-	bool	Render();
-	bool	Release();
+	bool	Init() override;
+	bool	Frame() override;
+	bool	Render() override;
+	bool	Release() override;
 	Sample();
 };
 

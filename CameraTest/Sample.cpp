@@ -10,8 +10,8 @@ bool	Sample::Init()
 {
     m_kCamera.Init();
 
-    m_kCamera.CreateViewMatrix(KVector3(16, 3, -31),
-        KVector3(16, 3, 100000));
+    m_kCamera.CreateViewMatrix(TVector3(16, 3, -31),
+                               TVector3(16, 3, 100000));
 
     m_kCamera.CreateProjMatrix(1.0f,
         1000.0f, TBASIS_PI * 0.5f,
@@ -48,12 +48,12 @@ bool	Sample::Frame()
 
     m_map.Frame();
 
+    g_Input.m_ptBeforePos = g_Input.m_ptPos;
     return true;
 }
 bool	Sample::Render()
 {
     m_map.SetMatrix(nullptr, &m_kCamera.m_matView, &m_kCamera.m_matProj);
-    m_kCamera.Render();
     m_map.Render();
     return true;
 }

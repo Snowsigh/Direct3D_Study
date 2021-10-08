@@ -1,11 +1,10 @@
 #include "KCamara.h"
 
-KMatrix KCamera::CreateViewMatrix(KVector3 vPos, KVector3 vTarget, KVector3 vUp)
+TMatrix KCamera::CreateViewMatrix(TVector3 vPos, TVector3 vTarget, TVector3 vUp)
 {
     m_vCameraPos = vPos;
     m_vCameraTarget = vTarget;
-    m_matView = KMatrix::ViewLookAt(
-        m_vCameraPos, m_vCameraTarget, vUp);
+    D3DXMatrixLookAtLH(&m_matView,&m_vCameraPos,&m_vCameraTarget,&vUp);
     m_vSide.x = m_matView._11;
     m_vSide.y = m_matView._21;
     m_vSide.z = m_matView._31;
@@ -20,12 +19,10 @@ KMatrix KCamera::CreateViewMatrix(KVector3 vPos, KVector3 vTarget, KVector3 vUp)
     return m_matView;
 }
 
-KMatrix KCamera::CreateProjMatrix(float fNear, float fFar, float fFov, float fAspect)
+TMatrix KCamera::CreateProjMatrix(float fNear, float fFar, float fFov, float fAspect)
 {
-    m_matProj = KMatrix::PerspectiveFovLH(fNear, fFar, fFov, fAspect);
+    D3DXMatrixPerspectiveFovLH(&m_matProj, fFov, fAspect, fNear, fFar);
     return m_matProj;
-
-
 }
 
 bool KCamera::Init()
@@ -37,11 +34,13 @@ bool KCamera::Frame()
 {
     if (g_Input.GetKey('W') >= KEY_PUSH)
     {
-        m_vCameraPos.z += m_pSpeed * g_fSPF;
+       /* m_vCameraPos.z += m_pSpeed * g_fSPF;*/
+        m_vCameraPos = m_vCameraPos + m_vLook * m_pSpeed * g_fSPF;
     }
     if (g_Input.GetKey('S') >= KEY_HOLD)
     {
-        m_vCameraPos.z -= m_pSpeed * g_fSPF;
+        /*m_vCameraPos.z -= m_pSpeed * g_fSPF;*/
+        m_vCameraPos = m_vCameraPos + m_vLook * -m_pSpeed * g_fSPF;
     }
     if (g_Input.GetKey('A') >= KEY_PUSH)
     {
@@ -94,15 +93,14 @@ KCamera::KCamera()
     m_vCameraPos = { 0, 20, -20.0f };
     m_vCameraTarget = { 0, 0, 1.0f };
 }
-KMatrix KDebugCamera::Update(KVector4 vValue)
+TMatrix KDebugCamera::Update(TVector4 vValue)
 {
-    TVector3 tmpPos = m_vCameraPos.ChanigeTK(m_vCameraPos);
-    TMatrix tmpMat = m_matView.ChanigeTK(m_matView);
+   
     TQuaternion q;
     D3DXQuaternionRotationYawPitchRoll(&q, vValue.y, vValue.x, vValue.z);
     TMatrix matRotation;
-    D3DXMatrixAffineTransformation(&matRotation, 1.0f, NULL, &q, &tmpPos);
-    D3DXMatrixInverse(&tmpMat, NULL, &matRotation);
+    D3DXMatrixAffineTransformation(&matRotation, 1.0f, NULL, &q, &m_vCameraPos);
+    D3DXMatrixInverse(&m_matView, NULL, &matRotation);
     m_vSide.x = m_matView._11;
     m_vSide.y = m_matView._21;
     m_vSide.z = m_matView._31;
@@ -115,13 +113,13 @@ KMatrix KDebugCamera::Update(KVector4 vValue)
     m_vLook.y = m_matView._23;
     m_vLook.z = m_matView._33;
 
-    KMatrix tmpRotation = tmpRotation.ChanigeKT(matRotation);
-    return tmpRotation;
+   
+    return matRotation;
 }
 
 bool KDebugCamera::Frame()
 {
-    if (g_Input.GetKey('W') >= KEY_PUSH)
+     if (g_Input.GetKey('W') >= KEY_PUSH)
     {
         m_vCameraPos = m_vCameraPos + m_vLook * m_pSpeed * g_fSPF;
     }
@@ -129,6 +127,19 @@ bool KDebugCamera::Frame()
     {
         m_vCameraPos = m_vCameraPos + m_vLook * -m_pSpeed * g_fSPF;
     }
+    if (g_Input.m_bDrag && g_Input.m_ptBeforePos.x == g_Input.m_pDragDown.x)
+    {
+        g_Input.m_pDrag.x = 0;
+    }
+    if (g_Input.m_bDrag && g_Input.m_ptBeforePos.y == g_Input.m_pDragDown.y)
+    {
+        g_Input.m_pDrag.y = 0;
+    }
+    m_fYaw += g_fSPF * g_Input.m_pDrag.x * 5.0f;
+    m_fPitch += g_fSPF * g_Input.m_pDrag.y * 5.0f;
+    Update(TVector4(m_fPitch, m_fYaw, 0.0f, 0.0f));
+
+    g_Input.m_ptBeforePos = g_Input.m_ptPos;
     return true;
 
 }

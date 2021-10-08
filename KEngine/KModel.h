@@ -22,9 +22,9 @@ struct SimpleVertex
 
 struct KB_Data
 {
-	KMatrix matWorld;
-	KMatrix matView;
-	KMatrix matProj;
+	TMatrix matWorld;
+	TMatrix matView;
+	TMatrix matProj;
 };
 
 class KModel
@@ -48,8 +48,8 @@ public:
 	ID3D11DeviceContext* m_pContext;
 	
 public:
-	void		SetMatrix(KMatrix* pMatWorld,
-		KMatrix* pMatView, KMatrix* pMatProj);
+	void		SetMatrix(TMatrix* pMatWorld,
+		TMatrix* pMatView, TMatrix* pMatProj);
 	virtual bool	CreateVertexData();
 	virtual	bool CreateIndexData() ;
 	virtual	HRESULT CreateIndexBuffer() ;
@@ -67,7 +67,7 @@ public:
 	bool   Frame();
 	bool   PreRender();
 	virtual	bool   Render();
-	bool PostRender();
+	bool	PostRender(UINT iNumIndex);
 	bool   Release();
 	KModel();
 	virtual ~KModel() {};
