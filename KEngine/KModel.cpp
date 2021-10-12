@@ -70,7 +70,7 @@ HRESULT KModel::CreateVertexBuffer()
     pInitData.pSysMem = &m_VertexList.at(0);
 
     hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pVertexBuffer);
-    if (FAILED(hr)) return hr;
+    HRFAILED
 
     return hr;
 }
@@ -89,7 +89,7 @@ HRESULT KModel::CreateIndexBuffer()
     pInitData.pSysMem = &m_IndexList.at(0);
 
     hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pIndexBuffer);
-    if (FAILED(hr)) return hr;
+    HRFAILED
 
 
     m_iNumIndex = m_IndexList.size();
@@ -101,7 +101,7 @@ HRESULT KModel::LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile)
     HRESULT hr;
 
     hr = LoadShader(vsFile, psFile);
-    if (FAILED(hr)) return hr;
+    HRFAILED
 
 
     D3D11_INPUT_ELEMENT_DESC pInputLayout[]
@@ -114,7 +114,7 @@ HRESULT KModel::LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile)
 
 
     hr = g_pd3dDevice->CreateInputLayout(pInputLayout, numLayout, m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), &m_pVertexLayout);
-    if (FAILED(hr)) return hr;
+    HRFAILED
 
     m_pVStemp->Release();
 
@@ -134,7 +134,7 @@ HRESULT KModel::CreateConstantBuffer()
     pInitData.pSysMem = &m_kbData;
 
     hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pConstantBuffer);
-    if (FAILED(hr)) return hr;
+    HRFAILED
 
     return hr;
 }
@@ -162,11 +162,11 @@ HRESULT KModel::LoadShader(LPCWSTR vsFile, LPCWSTR psFile)
     }
 
     hr = g_pd3dDevice->CreatePixelShader(m_pPStemp->GetBufferPointer(), m_pPStemp->GetBufferSize(), NULL, &m_pPS);
-    if (FAILED(hr)) return hr;
+    HRFAILED
     m_pPStemp->Release();
 
     hr = g_pd3dDevice->CreateVertexShader(m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), NULL, &m_pVS);
-    if (FAILED(hr)) return hr;
+    HRFAILED
 
 
 

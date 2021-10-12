@@ -144,9 +144,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="KTexture.h" />
     <ClInclude Include="Sample.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="KTexture.cpp" />
     <ClCompile Include="Sample.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

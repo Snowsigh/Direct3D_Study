@@ -167,6 +167,7 @@ copy "*.h" "..\\..\\Include\\"
     <ClCompile Include="KNode.cpp" />
     <ClCompile Include="KObject.cpp" />
     <ClCompile Include="KQuadTree.cpp" />
+    <ClCompile Include="KTexture.cpp" />
     <ClCompile Include="KTimer.cpp" />
     <ClCompile Include="KVector.cpp" />
     <ClCompile Include="KWindow.cpp" />
@@ -185,6 +186,7 @@ copy "*.h" "..\\..\\Include\\"
     <ClInclude Include="KObject.h" />
     <ClInclude Include="KQuadTree.h" />
     <ClInclude Include="KStd.h" />
+    <ClInclude Include="KTexture.h" />
     <ClInclude Include="KTimer.h" />
     <ClInclude Include="KVector.h" />
     <ClInclude Include="KWindow.h" />

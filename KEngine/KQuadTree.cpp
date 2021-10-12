@@ -273,10 +273,10 @@ bool	KQuadTree::Frame()
 	//}
 	return true;
 }
-void    KQuadTree::Build(KMap* pMap)
+void    KQuadTree::Build(KMap* pMap, KCamera* pCamera)
 {
 	
-
+	GetCamera(pCamera);
 	m_pMap = pMap;
 	m_iNumCol = m_pMap->m_mapInfo.m_iNumCol;
 	m_iNumRow = m_pMap->m_mapInfo.m_iNumRow;

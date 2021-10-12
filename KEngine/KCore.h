@@ -9,6 +9,7 @@
 #include "KObject.h"
 #include "KCamara.h"
 #include "KQuadTree.h"
+#include "KTexture.h"
 
 class KCore : public KWindow
 {
@@ -19,15 +20,24 @@ private:
 	bool	GameFrame();
 	bool	GameRender();
 	bool	GameRelease();
+	LRESULT MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 public:
-
 	KTimer m_kTimer;
 	KWrite m_kWrite;
 	KModel m_kModel;
 	
 	bool		m_bDebugText = false;
-	
-	//KInPut m_kInput;
+public:
+	KDebugCamera m_kCamera;
+	bool SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos);
+
+public:
+	bool SetWireFrame();
+	ID3D11RasterizerState* m_pRsWire;
+	ID3D11RasterizerState* m_pRsSolid;
+	bool m_bWiremod = false;
+public:
+	void DebugFrame();
 public:
 	bool Run();
 	virtual bool	Init();

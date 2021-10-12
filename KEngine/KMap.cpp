@@ -7,7 +7,7 @@ bool KMap::Load(KMapinfo& pinfo, ID3D11DeviceContext* pContext, LPCWSTR vsFile, 
     m_mapInfo.m_iNumRowCell = m_mapInfo.m_iNumRow - 1;
     m_mapInfo.m_iNumVertex = m_mapInfo.m_iNumCol * m_mapInfo.m_iNumRow;
     if (Create(pContext, vsFile, psFile)) return true;
-    else false;
+    return false;
 }
 
 

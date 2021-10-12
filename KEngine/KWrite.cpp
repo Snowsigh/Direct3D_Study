@@ -18,12 +18,12 @@ HRESULT KWrite::CreateDeviceResources(IDXGISurface1* pSurface)
         pSurface,
         &props,
         &m_pRT);
-    if (FAILED(hr)) return hr;
+    HRFAILED
 
     m_pRT->CreateSolidColorBrush(
         D2D1::ColorF(D2D1::ColorF::White),
         &m_pTextBrush);
-    if (FAILED(hr)) return hr;
+    HRFAILED
     return S_OK;
 }
 
@@ -32,11 +32,11 @@ bool KWrite::Init()
     HRESULT hr;
     hr = D2D1CreateFactory(
         D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pd2dFactory);
-    if (FAILED(hr)) return false;
+    HRFAILED
     hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
         __uuidof(IDWriteFactory),
         reinterpret_cast<IUnknown**>(&m_pdWriteFactory));
-    if (FAILED(hr)) return false;
+    HRFAILED
 
     hr = m_pdWriteFactory->CreateTextFormat(
         L"±Ã¼­",
@@ -59,7 +59,7 @@ bool KWrite::Init()
         L"ko-kr",//L"en-us",//L"ko-kr",
         &m_pTextFormat50
     );
-    if (FAILED(hr)) return false;
+    HRFAILED
     return true;
 }
 

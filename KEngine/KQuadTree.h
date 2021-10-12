@@ -29,7 +29,7 @@ public:
 
 	bool GetCamera(KCamera* pCamera);
 public:
-	void    Build(KMap* pMap);
+	void    Build(KMap* pMap, KCamera* pCamera);
 	bool    Init();
 	KNode* CreateNode(KNode* pParent, float x, float y, float w, float h);
 	void	Buildtree(KNode*);
