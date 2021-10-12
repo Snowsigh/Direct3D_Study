@@ -1,6 +1,6 @@
 #pragma once
-#include <KMap.h>
-#include <KStd.h>
+#include "KMap.h"
+#include "KStd.h"
 struct Rect
 {
 	float x, y, w, h;

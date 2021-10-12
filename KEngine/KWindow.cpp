@@ -70,6 +70,7 @@ bool KWindow::InitWindow(HINSTANCE hInstance, int nCmdShow, const WCHAR* strWind
     g_hWnd = m_hWnd;
     g_rtClient = m_rtClient;
 
+
     // WM_SHOW
     ShowWindow(m_hWnd, nCmdShow);
     return true;

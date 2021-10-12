@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="KCamera" Collapsed="true">
+    <Position X="3.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUEEAAAAAgAEAAAgBAAAEQACAAAAAAAAABCCABAACBE=</HashCode>
+      <FileName>KCamara.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KDebugCamera" Collapsed="true">
+    <Position X="3.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>KCamara.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KCore">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIAAACAAAAAAAAAXAAAAAAAAAAACEAAABACABAKAAM=</HashCode>
+      <FileName>KCore.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KDevice">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CFAABAAMAAgCICAAAAAAAACAAACAAAAKAAIAAAAgIAA=</HashCode>
+      <FileName>KDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KInPut" Collapsed="true">
+    <Position X="14.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAgAAAAgAAAAACAAQAAgAACAEACJAKiBAAAAE=</HashCode>
+      <FileName>KInput.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KMap" Collapsed="true">
+    <Position X="10.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>KMap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KMatrix" Collapsed="true">
+    <Position X="11.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAIAAAAQAAgAAAAAAAQAgAEAAAAgAAAA=</HashCode>
+      <FileName>KMartrix.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KModel" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ILgCAACAAAAAAAAAgAgAAACAQAADiEkAARACCJAGAgE=</HashCode>
+      <FileName>KModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KObject" Collapsed="true">
+    <Position X="12.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KBoxObject" Collapsed="true">
+    <Position X="12.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TSingleton&lt;T&gt;" Collapsed="true">
+    <Position X="14.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KStd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KTimer">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAIAAACAAAAAAgAACAABAQAAQJACABAAAAE=</HashCode>
+      <FileName>KTimer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TBASIS_VECTOR::KVector3" Collapsed="true">
+    <Position X="14.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAQBAAAAIAQAgAEAgAAAAAAA=</HashCode>
+      <FileName>KVector.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TBASIS_VECTOR::KVector4" Collapsed="true">
+    <Position X="13" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAgBAAAAAAAAAA=</HashCode>
+      <FileName>KVector.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TBASIS_VECTOR::KVector2" Collapsed="true">
+    <Position X="16.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KVector.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KWindow">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACIAAAQIAAAAAAAAAAAAAIAAAIABAACgAAQ=</HashCode>
+      <FileName>KWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KWrite">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAgAIAAAAAAAAAAIABAABAgAAAAABACABAAAIE=</HashCode>
+      <FileName>KWrite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TBASIS_EX::TRay" Collapsed="true">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAIAAAAAAAIQAAAAAAAAAAAAAgAAAAAIA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TBASIS_EX::TViewport" Collapsed="true">
+    <Position X="14.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgBAAQAAAQAQgBACQggBAAgAAAAAABgAAQAgAA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="KMapinfo" Collapsed="true">
+    <Position X="10.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgABIACAAQAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>KMap.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="float4x4" Collapsed="true">
+    <Position X="11.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KMartrix.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SimpleVertex" Collapsed="true">
+    <Position X="14.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAIAAAAAAAACAAABgAQAAAAA=</HashCode>
+      <FileName>KModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KB_Data" Collapsed="true">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAABAAAAAAAAAAAAAAAEAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>KModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_VECTOR::float2" Collapsed="true">
+    <Position X="16.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KVector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_VECTOR::float3" Collapsed="true">
+    <Position X="14.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KVector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_VECTOR::float4" Collapsed="true">
+    <Position X="13" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KVector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TTextArray" Collapsed="true">
+    <Position X="10.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KWrite.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TVector2" Collapsed="true">
+    <Position X="12.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAIAABCBAABAAAEAAgQwRBCQAAAgRAgECgAAAAAMA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TVector3" Collapsed="true">
+    <Position X="14.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAIgKBCBAABAAAEAAgQwRBCQEAAARQiECgAAAAAMI=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TVector4" Collapsed="true">
+    <Position X="9" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAIgIBCBAABAAAEAABQwRBCQAAAABAgECgAAAAAMA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TMatrix" Collapsed="true">
+    <Position X="10.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEEagAIAAAgACEAEgAQRTIBAAADIAiEDgAAgAAAI=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TQuaternion" Collapsed="true">
+    <Position X="14.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABYAAAAAAAAAEAIAAYBAKAAAAAAAgEAgAAAQAAA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TPlane" Collapsed="true">
+    <Position X="12.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAMACAAQQACAAIAEAAgAAgBAAAAAA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TRectangle" Collapsed="true">
+    <Position X="9" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAEAAAAAAAAQAQAIEAQAAAAABIAAAAABgAQAYgIA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TBASIS_EX::TColor" Collapsed="true">
+    <Position X="9" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAIAAAAAEAAQAAAARAAAAAEAAEBgQQkKAEAAQA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="std::less&lt;TBASIS_EX::TRectangle&gt;" Collapsed="true">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="KeyState" Collapsed="true">
+    <Position X="9" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAgAAAAAAAAAAAAAAgAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KInput.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

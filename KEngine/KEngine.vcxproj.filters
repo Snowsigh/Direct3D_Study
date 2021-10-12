@@ -54,6 +54,12 @@
     <ClCompile Include="TMath.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="KNode.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="KQuadTree.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KCore.h">
@@ -98,5 +104,17 @@
     <ClInclude Include="TMath.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="KNode.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="KQuadTree.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="StaticLod.txt" />
   </ItemGroup>
 </Project>

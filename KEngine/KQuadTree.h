@@ -1,6 +1,6 @@
 #pragma once
 #include "KNode.h"
-#include <KCamara.h>
+#include "KCamara.h"
 #include <queue>
 #include <map>
 class KQuadTree

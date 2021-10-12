@@ -8,6 +8,7 @@
 #include "KMap.h"
 #include "KObject.h"
 #include "KCamara.h"
+#include "KQuadTree.h"
 
 class KCore : public KWindow
 {
@@ -25,6 +26,7 @@ public:
 	KModel m_kModel;
 	
 	bool		m_bDebugText = false;
+	
 	//KInPut m_kInput;
 public:
 	bool Run();

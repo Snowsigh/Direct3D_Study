@@ -65,9 +65,7 @@ bool	KCore::GameRelease()
     g_Input.Release();
     m_kWrite.Release();
     //m_kModel.Release();
-
     CleanupDevice();
-
     Release();
     return true;
 }

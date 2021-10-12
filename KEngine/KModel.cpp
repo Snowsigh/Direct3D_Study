@@ -91,6 +91,8 @@ HRESULT KModel::CreateIndexBuffer()
     hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pIndexBuffer);
     if (FAILED(hr)) return hr;
 
+
+    m_iNumIndex = m_IndexList.size();
     return hr;
 }
 
@@ -206,8 +208,8 @@ bool KModel::Init(ID3D11DeviceContext* pContext)
 
 bool KModel::Frame()
 {
-   
-
+    m_kbData.matTime.z = g_fGameTimer;
+    
     return true;
 }
 bool KModel::PreRender()
@@ -234,7 +236,7 @@ bool KModel::Render()
 {
     
     if (PreRender() == false) return false;
-    if (PostRender(m_IndexList.size()) == false) return false;
+    if (PostRender(m_iNumIndex) == false) return false;
     return true;
 
 }

@@ -3,9 +3,9 @@
 #include "KDevice.h"
 struct SimpleVertex
 {
-	KVector3 pos;
-	KVector4 color;
-	SimpleVertex(KVector3 p, KVector4 c)
+	TVector3 pos;
+	TVector4 color;
+	SimpleVertex(TVector3 p, TVector4 c)
 	{
 		pos = p;
 		color = c;
@@ -25,12 +25,14 @@ struct KB_Data
 	TMatrix matWorld;
 	TMatrix matView;
 	TMatrix matProj;
+	TVector4 matTime;
 };
 
 class KModel
 {
 public:
 	KB_Data m_kbData;
+	UINT m_iNumIndex;
 
 	ID3D11Buffer* m_pVertexBuffer;
 	ID3D11Buffer* m_pIndexBuffer;

@@ -56,11 +56,11 @@ bool KMap::CreateVertexData()
             m_VertexList[iIndex].pos.y = 0.0f;
             m_VertexList[iIndex].pos.z = -m_mapInfo.m_fCellDistance * iRow;
             m_VertexList[iIndex].color =
-                KVector4(
+                TVector4(
                     randstep(0.0f, 1.0f),
                     randstep(0.0f, 1.0f),
                     randstep(0.0f, 1.0f), 1.0f);
-            iIndex += 6;
+            
         }
     }
     if (m_VertexList.size() > 0) return true;

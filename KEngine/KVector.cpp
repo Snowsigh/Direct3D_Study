@@ -15,7 +15,7 @@ KVector3::KVector3(const KVector3& v0)
 KVector3::KVector3(float fX, float fY, float fZ)
 {
 	x = fX;
-	y = fY;
+	y = fY;		
 	z = fZ;
 }
 
