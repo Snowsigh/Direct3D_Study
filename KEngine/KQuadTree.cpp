@@ -275,7 +275,7 @@ bool	KQuadTree::Frame()
 }
 void    KQuadTree::Build(KMap* pMap)
 {
-	LoadObject(L"StaticLod.txt");
+	
 
 	m_pMap = pMap;
 	m_iNumCol = m_pMap->m_mapInfo.m_iNumCol;

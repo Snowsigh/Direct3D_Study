@@ -1,12 +1,13 @@
 #include "KMap.h"
 
-bool KMap::Load(KMapinfo& pinfo)
+bool KMap::Load(KMapinfo& pinfo, ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile)
 {
     m_mapInfo = pinfo;
     m_mapInfo.m_iNumColCell = m_mapInfo.m_iNumCol - 1;
     m_mapInfo.m_iNumRowCell = m_mapInfo.m_iNumRow - 1;
     m_mapInfo.m_iNumVertex = m_mapInfo.m_iNumCol * m_mapInfo.m_iNumRow;
-    return true;
+    if (Create(pContext, vsFile, psFile)) return true;
+    else false;
 }
 
 

@@ -114,7 +114,4 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="StaticLod.txt" />
-  </ItemGroup>
 </Project>

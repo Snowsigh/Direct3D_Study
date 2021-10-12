@@ -14,7 +14,7 @@ class KMap : public KModel
 public:
     KMapinfo m_mapInfo;
 public:
-    bool Load(KMapinfo& pinfo);
+    bool Load(KMapinfo& pinfo, ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile);
     bool CreateVertexData() override;
     bool CreateIndexData() override;
     

@@ -59,13 +59,16 @@ public:
 public:
 	HRESULT	CreateVertexBuffer() ;
 	HRESULT CreateConstantBuffer();
-	HRESULT	LoadShaderAndInputLayout();
-	HRESULT LoadShader();
+	HRESULT	LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile);
+	HRESULT LoadShader(LPCWSTR vsFile, LPCWSTR psFile);
+
+	bool Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile);
+
 	bool LoadObject(std::wstring filename);
 
 public:
 
-	bool   Init(ID3D11DeviceContext* pContext);
+	bool   Init();
 	bool   Frame();
 	bool   PreRender();
 	virtual	bool   Render();

@@ -12,9 +12,9 @@ bool	Sample::Init()
         64 + 1, 0, 0, 0,
         1.0f
     };
-    if (!m_kMap.Load(info, m_pImmediateContext, L"../../Data/Shader/VertexMap.txt", L"../../Data/Shader/PixelMap.txt"))
+    if (m_kMap.Load(info))
     {
-        return false;
+        m_kMap.Init(m_pImmediateContext);
     }
     m_kQuadtree.LoadObject(L"../../Data/Script/StaticLod.txt");
     m_kQuadtree.Build(&m_kMap);

@@ -96,11 +96,11 @@ HRESULT KModel::CreateIndexBuffer()
     return hr;
 }
 
-HRESULT KModel::LoadShaderAndInputLayout()
+HRESULT KModel::LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile)
 {
     HRESULT hr;
 
-    hr = LoadShader();
+    hr = LoadShader(vsFile, psFile);
     if (FAILED(hr)) return hr;
 
 
@@ -139,11 +139,11 @@ HRESULT KModel::CreateConstantBuffer()
     return hr;
 }
 
-HRESULT KModel::LoadShader()
+HRESULT KModel::LoadShader(LPCWSTR vsFile, LPCWSTR psFile)
 {
     HRESULT hr;
     ID3DBlob* error = nullptr;
-    hr = D3DCompileFromFile(L"VertexShader.txt", nullptr, nullptr, "VertexS", "vs_5_0", 0, 0, &m_pVStemp, &error);
+    hr = D3DCompileFromFile(vsFile, nullptr, nullptr, "VertexS", "vs_5_0", 0, 0, &m_pVStemp, &error);
     if (FAILED(hr))
     {
         MessageBoxA(NULL,
@@ -152,7 +152,7 @@ HRESULT KModel::LoadShader()
         return hr;
     }
 
-    hr = D3DCompileFromFile(L"PixelShader.txt", nullptr, nullptr, "PixelS", "ps_5_0", 0, 0, &m_pPStemp, &error);
+    hr = D3DCompileFromFile(psFile, nullptr, nullptr, "PixelS", "ps_5_0", 0, 0, &m_pPStemp, &error);
     if (FAILED(hr))
     {
         MessageBoxA(NULL,
@@ -190,9 +190,12 @@ bool KModel::CreateIndexData()
     }
     return false;
 }
+bool KModel::Init()
+{
+    return true;
+}
 
-
-bool KModel::Init(ID3D11DeviceContext* pContext)
+bool KModel::Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile)
 {
     m_pContext = pContext;
     if (CreateVertexData() && CreateIndexData())
@@ -200,7 +203,7 @@ bool KModel::Init(ID3D11DeviceContext* pContext)
         CreateVertexBuffer();
         CreateIndexBuffer();
         CreateConstantBuffer();
-        LoadShaderAndInputLayout();
+        LoadShaderAndInputLayout(vsFile, psFile);
         return true;
     }
     return false;
