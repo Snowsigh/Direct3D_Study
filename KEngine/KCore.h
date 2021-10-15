@@ -20,7 +20,7 @@ private:
 	bool	GameFrame();
 	bool	GameRender();
 	bool	GameRelease();
-	LRESULT MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	LRESULT MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)override;
 public:
 	KTimer m_kTimer;
 	KWrite m_kWrite;
@@ -28,8 +28,8 @@ public:
 	
 	bool		m_bDebugText = false;
 public:
-	KDebugCamera m_kCamera;
-	bool SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos);
+		bool SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos);
+		KDebugCamera m_kCamera;
 
 public:
 	bool SetWireFrame();

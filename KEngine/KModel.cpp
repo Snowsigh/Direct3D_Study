@@ -27,7 +27,7 @@ bool KModel::LoadObject(std::wstring filename)
     float fVersion = 1.0f;
     _fgetts(obejct, 256, FObject);
     TCHAR tmp[256] = { 0, };
-    _stscanf_s(obejct, _T("%s%f"), tmp, _countof(tmp), &fVersion);
+    _stscanf_s(obejct, _T("%s%f"), tmp, (UINT)(_countof(tmp)), &fVersion);
 
 
     int inumVertex = 0;
@@ -61,7 +61,7 @@ HRESULT KModel::CreateVertexBuffer()
 
     D3D11_BUFFER_DESC pDec;
     ZeroMemory(&pDec, sizeof(D3D11_BUFFER_DESC));
-    pDec.ByteWidth = sizeof(PNCT_VERTEX) * m_VertexList.size();
+    pDec.ByteWidth = (UINT)(sizeof(PNCT_VERTEX) * m_VertexList.size());
     pDec.Usage = D3D11_USAGE_DEFAULT;
     pDec.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
@@ -80,7 +80,7 @@ HRESULT KModel::CreateIndexBuffer()
 
     D3D11_BUFFER_DESC pDec;
     ZeroMemory(&pDec, sizeof(D3D11_BUFFER_DESC));
-    pDec.ByteWidth = sizeof(DWORD) * m_IndexList.size();
+    pDec.ByteWidth = UINT(sizeof(DWORD) * m_IndexList.size());
     pDec.Usage = D3D11_USAGE_DEFAULT;
     pDec.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
@@ -92,7 +92,7 @@ HRESULT KModel::CreateIndexBuffer()
     HRFAILED
 
 
-    m_iNumIndex = m_IndexList.size();
+    m_iNumIndex = (UINT)(m_IndexList.size());
     return hr;
 }
 
@@ -255,11 +255,11 @@ bool KModel::PostRender(UINT iNumIndex)
 
 bool KModel::Release()
 {
-    m_pVertexBuffer->Release();
-    m_pIndexBuffer->Release();
-    m_pVertexLayout->Release();
-    m_pConstantBuffer->Release();
-    m_pVS->Release();
-    m_pPS->Release();
+    IFRELEASE(m_pVertexBuffer)
+    IFRELEASE(m_pIndexBuffer)
+    IFRELEASE(m_pVertexLayout)
+    IFRELEASE(m_pConstantBuffer)
+    IFRELEASE(m_pVS)
+    IFRELEASE(m_pPS)
     return false;
 }

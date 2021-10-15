@@ -52,9 +52,9 @@ HRESULT KDevice::CreateSwapChain(HWND hWnd, UINT iWidth, UINT iHeight)
 	sd.OutputWindow = hWnd;
 	sd.SampleDesc.Count = 1;
 	sd.Windowed = TRUE;
-	
-	
-	return m_pGIFactory->CreateSwapChain(m_pd3dDevice, &sd, &m_pSwapChain);
+	hr = m_pGIFactory->CreateSwapChain(m_pd3dDevice, &sd, &m_pSwapChain);
+	HRFAILED
+	return true;
 }
 HRESULT	KDevice::SetRenderTargetView()
 {
@@ -101,12 +101,14 @@ HRESULT	KDevice::SetViewPort()
 }
 bool KDevice::CleanupDevice()
 {
+	
 	if (m_pImmediateContext) m_pImmediateContext->ClearState();
-	if (m_pRenderTargetView) m_pRenderTargetView->Release();
-	if (m_pSwapChain) m_pSwapChain->Release();
-	if (m_pImmediateContext) m_pImmediateContext->Release();
-	if (m_pd3dDevice) m_pd3dDevice->Release();
-	if (m_pGIFactory) m_pGIFactory->Release();
+	IFRELEASE(m_pRenderTargetView)
+	IFRELEASE(m_pSwapChain)
+	IFRELEASE(m_pImmediateContext)
+	IFRELEASE(m_pd3dDevice)
+	IFRELEASE(m_pGIFactory)
+
 	m_pd3dDevice = NULL;
 	m_pSwapChain = NULL;
 	m_pRenderTargetView = NULL;
@@ -128,7 +130,6 @@ void KDevice::DX_CHECK(HRESULT hr, const TCHAR* function)
 }
 bool KDevice::SetDevice()
 {
-	HRESULT hr;
 	if (FAILED(CreateGIFactory()))
 	{
 		return false;

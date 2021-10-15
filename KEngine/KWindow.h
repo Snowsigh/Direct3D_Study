@@ -12,7 +12,8 @@ public:
 	bool m_bGameRun;
 public:
 	bool InitWindow(HINSTANCE hInstance, int nCmdShow, const WCHAR* strWindowTitle, int iWidth, int iHeight);
-virtual	LRESULT MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	LRESULT WndMsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	 virtual LRESULT  MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 public:
 	bool MsgRun();
 

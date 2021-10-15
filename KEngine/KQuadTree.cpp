@@ -42,11 +42,11 @@ bool  KQuadTree::LoadObject(std::wstring filename)
 	int iVersion = 0;
 	_fgetts(buffer, 256, fp);
 	TCHAR tmp[256] = { 0, };
-	_stscanf_s(buffer, _T("%s%d"), tmp, _countof(tmp), &iVersion);
+	_stscanf_s(buffer, _T("%s%d"), tmp, (UINT)(_countof(tmp)), &iVersion);
 
 	int iNumPatch = 0;
 	_fgetts(buffer, 256, fp);
-	_stscanf_s(buffer, _T("%s%d"), tmp, _countof(tmp), &iNumPatch);
+	_stscanf_s(buffer, _T("%s%d"), tmp, (UINT)(_countof(tmp)), &iNumPatch);
 
 	int index = 0;
 
@@ -58,7 +58,7 @@ bool  KQuadTree::LoadObject(std::wstring filename)
 		{
 			std::vector<std::wstring>	ListTokens;
 			_fgetts(buffer, 256, fp);
-			_stscanf_s(buffer, _T("%d %s"), &index, data, _countof(data));
+			_stscanf_s(buffer, _T("%d %s"), &index, data, (UINT)(_countof(data)));
 
 			std::wstring sentence = data;
 			Tokenize(sentence, L",", std::back_inserter(ListTokens));
@@ -89,7 +89,7 @@ HRESULT KQuadTree::CreateIndexBuffer(KLodPatch& patch, int iCode)
 	HRESULT hr = S_OK;
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
-	bd.ByteWidth = sizeof(DWORD) * patch.IndexList[iCode].size();
+	bd.ByteWidth = (UINT)(sizeof(DWORD) * patch.IndexList[iCode].size());
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
@@ -137,7 +137,7 @@ HRESULT KQuadTree::CreateIndexBuffer(KNode* pNode)
 	HRESULT hr = S_OK;
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
-	bd.ByteWidth = sizeof(DWORD) * m_Indexlist.size();
+	bd.ByteWidth = (UINT)(sizeof(DWORD) * m_Indexlist.size());
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	D3D11_SUBRESOURCE_DATA data;
@@ -176,7 +176,7 @@ HRESULT KQuadTree::CreateVertexBuffer(KNode* pNode)
 	HRESULT hr = S_OK;
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
-	bd.ByteWidth = sizeof(PNCT_VERTEX) * pNode->m_pVertexList.size();
+	bd.ByteWidth = (UINT)(sizeof(PNCT_VERTEX) * pNode->m_pVertexList.size());
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	D3D11_SUBRESOURCE_DATA data;
@@ -234,17 +234,17 @@ bool	KQuadTree::Render(ID3D11DeviceContext* pContext)
 		UINT iLodLevel = m_pLeafList[iNode]->m_iLodLevel;
 		if (m_pLeafList[iNode]->m_iLodLevel == 0)
 		{
-			iNumIndex = m_LodPatchlist[iLodLevel].IndexList[iRenderCode].size();
+			iNumIndex = (UINT)(m_LodPatchlist[iLodLevel].IndexList[iRenderCode].size());
 			pRenderBuffer = m_LodPatchlist[iLodLevel].IndexBufferList[iRenderCode];
 		}
 		else if (m_pLeafList[iNode]->m_iLodLevel == 1)
 		{
-			iNumIndex = m_LodPatchlist[iLodLevel].IndexList[iRenderCode].size();
+			iNumIndex = (UINT)(m_LodPatchlist[iLodLevel].IndexList[iRenderCode].size());
 			pRenderBuffer = m_LodPatchlist[iLodLevel].IndexBufferList[iRenderCode];
 		}
 		else
 		{
-			iNumIndex = m_Indexlist.size();
+			iNumIndex = (UINT)(m_Indexlist.size());
 			pRenderBuffer = m_pIndexBuffer;
 		}
 
@@ -285,8 +285,8 @@ void    KQuadTree::Build(KMap* pMap, KCamera* pCamera)
 	Buildtree(m_pRootNode);
 	SetNeighborNode();
 	// lod patch (전체 가로 개수(9), 리프노드 깊이(1))
-	m_iNumCell = (m_iNumCol - 1) / pow(2.0f, m_iMaxDepth);
-	m_iNumPatch = (log(m_iNumCell) / log(2.0f));
+	m_iNumCell = (UINT)((m_iNumCol - 1) / pow(2.0f, m_iMaxDepth));
+	m_iNumPatch = (UINT)((log(m_iNumCell) / log(2.0f)));
 	/*if (m_iNumPatch > 0)
 	{
 		m_LodPatchlist.resize(m_iNumPatch);   << ?? 왜안되지? 
@@ -351,7 +351,7 @@ void KQuadTree::Buildtree(KNode* pNode)
 	else
 	{
 		pNode->m_bLeaf = true;
-		if (m_iMaxDepth < pNode->m_iDepth)
+		if (m_iMaxDepth < (UINT)(pNode->m_iDepth))
 		{
 			m_iMaxDepth = pNode->m_iDepth;
 		}
@@ -406,7 +406,7 @@ bool KQuadTree::Release()
 	{
 		m_LodPatchlist[iPatch].Release();
 	}
-	if (m_pIndexBuffer)m_pIndexBuffer->Release();
+	IFRELEASE(m_pIndexBuffer)
 	delete m_pRootNode;
 	m_pRootNode = nullptr;
 	return true;
@@ -429,7 +429,7 @@ void KQuadTree::SetNeighborNode()
 			_ASSERT(iter != m_pLeafList.end());
 			pNode->m_NeighborList[3] = iter->second;;
 		}
-		if (pNode->m_Element.y < dwNumPatchCount - 1) // 하
+		if ((DWORD)(pNode->m_Element.y) < dwNumPatchCount - 1) // 하
 		{
 			dwNeighborCol = pNode->m_Element.x;
 			dwNeighborRow = (pNode->m_Element.y + 1) * dwNumPatchCount;
@@ -445,7 +445,7 @@ void KQuadTree::SetNeighborNode()
 			_ASSERT(iter != m_pLeafList.end());
 			pNode->m_NeighborList[1] = iter->second;;
 		}
-		if (pNode->m_Element.x < dwNumPatchCount - 1) // 우
+		if ((DWORD)(pNode->m_Element.x) < dwNumPatchCount - 1) // 우
 		{
 			dwNeighborCol = pNode->m_Element.x + 1;
 			dwNeighborRow = pNode->m_Element.y * dwNumPatchCount;
@@ -455,7 +455,7 @@ void KQuadTree::SetNeighborNode()
 		}
 	}
 }
-KNode* KQuadTree::CreateNode(KNode* pParent, float x, float y, float w, float h)
+KNode* KQuadTree::CreateNode(KNode* pParent, UINT x, UINT y, UINT w, UINT h)
 {
 	KNode* pNode = new KNode(x, y, w, h);
 	if (pParent != nullptr)

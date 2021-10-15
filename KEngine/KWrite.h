@@ -1,13 +1,5 @@
 #pragma once
 #include "KStd.h"
-
-
-struct TTextArray
-{
-
-};
-
-
 class KWrite
 {
 public:

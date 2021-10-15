@@ -13,12 +13,12 @@
 #include <d2d1helper.h>
 #include <dwrite.h>
 #include <d3dcompiler.h>
+#include <codecvt>
 #include "KMartrix.h"
 #include "SimpleMath.h"
 #include "TMath.h"
 #include "fbxsdk.h"
 
-#pragma comment (lib,"libfbxsdk-md.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
@@ -48,6 +48,22 @@ public:
 		return theSingle;
 	}
 };
+namespace KBASE
+{
+	//#include <codecvt>
+	static std::wstring mtw(std::string str)
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
+		return conv.from_bytes(str);
+	}
+	static std::string wtm(std::wstring str)
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
+		return conv.to_bytes(str);
+	}
+	static TCHAR g_szDataPath[] = L"../../Data/";
+	static TCHAR g_szPath[] = L"../../";
+}
 
 #define randf(x) (x*rand()/(float)RAND_MAX)
 #define randf2(x,off) (off+x*rand()/(float)RAND_MAX)
@@ -59,3 +75,4 @@ public:
 #define GAME(WindowName, Width, Height) GAMEINIT GAMERUN(WindowName, Width, Height)
 
 #define HRFAILED if(FAILED(hr))return hr;
+#define IFRELEASE(a) if(a)a->Release();

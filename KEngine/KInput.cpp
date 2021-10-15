@@ -41,12 +41,10 @@ LRESULT KInPut::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case WM_MBUTTONDOWN:
         case WM_MBUTTONUP:*/
     case WM_MOUSEWHEEL:
-    {
+     {
         m_iWheel = GET_WHEEL_DELTA_WPARAM(wParam);//120    
         return 0;
-    }
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
+     }
     }
     return 0;
 

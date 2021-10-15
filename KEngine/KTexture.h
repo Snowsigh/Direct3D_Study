@@ -6,6 +6,9 @@
 class KTexture
 {
 public:
+	int			 m_iTexType;
+	std::wstring m_szFileName;
+public:
 	ID3D11Resource* m_pTexture;
 	ID3D11ShaderResourceView* m_pTextureSRV;
 	ID3D11SamplerState* m_pSampler;
@@ -15,6 +18,8 @@ public:
 	bool   Frame();
 	bool   Render();
 	bool   Release();
+	bool   SamplerRelease();
 	bool   LoadTexture(std::wstring texFileName);
+	ID3D11SamplerState*   CreateSampler();
 };
 

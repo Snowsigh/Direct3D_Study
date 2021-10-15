@@ -31,7 +31,7 @@ public:
 public:
 	void    Build(KMap* pMap, KCamera* pCamera);
 	bool    Init();
-	KNode* CreateNode(KNode* pParent, float x, float y, float w, float h);
+	KNode* CreateNode(KNode* pParent, UINT x, UINT y, UINT w, UINT h);
 	void	Buildtree(KNode*);
 	bool    AddObject(TVector2 pos);
 

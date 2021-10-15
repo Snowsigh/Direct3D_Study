@@ -20,7 +20,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAIAAACAAAAAAAAAXAAAAAAAAAAACEAAABACABAKAAM=</HashCode>
+      <HashCode>AAIAgCCUAAAAAAAAXAAAAAAAAABACEIAAJACABAKAAM=</HashCode>
       <FileName>KCore.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -120,7 +120,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACIAAAQIAAAAAAAAAAAAAIAAAIABAACgAAQ=</HashCode>
+      <HashCode>AAAAAAAAACIAAAQIAAAAAAAAAAAAAIAAAIABAASgAAQ=</HashCode>
       <FileName>KWindow.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -195,13 +195,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>KVector.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="TTextArray" Collapsed="true">
-    <Position X="10.75" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>KWrite.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="TBASIS_EX::TVector2" Collapsed="true">

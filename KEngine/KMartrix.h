@@ -101,7 +101,7 @@ public:
 		float fovy, float Aspect) // w / h =1.33
 	{
 		float    h, w, Q;
-		h = 1 / tan(fovy * 0.5f);  // 1/tans(x) = cot(x)
+		h = (float)(1 / tan(fovy * 0.5f));  // 1/tans(x) = cot(x)
 		w = h / Aspect;
 		Q = fFarPlane / (fFarPlane - fNearPlane);
 		KMatrix ret;

@@ -9,10 +9,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     // 메세지 핸들링
     assert(g_pWindow);
-    return g_pWindow->MsgProc(hWnd, message, wParam, lParam);
+    return g_pWindow->WndMsgProc(hWnd, message, wParam, lParam);
 }
 LRESULT  KWindow::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    return 0;
+}
+LRESULT  KWindow::WndMsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    if (MsgProc(hWnd, message, wParam, lParam)) return 1;
     switch (message)
     {
     case WM_DESTROY:

@@ -9,8 +9,8 @@ HRESULT KWrite::CreateDeviceResources(IDXGISurface1* pSurface)
     props.type = D2D1_RENDER_TARGET_TYPE_DEFAULT;
     props.pixelFormat.format = DXGI_FORMAT_UNKNOWN;
     props.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
-    props.dpiX = dpi;
-    props.dpiY = dpi;
+    props.dpiX = (float)(dpi);
+    props.dpiY = (float)(dpi);
     props.usage = D2D1_RENDER_TARGET_USAGE_NONE;
     props.minLevel = D2D1_FEATURE_LEVEL_DEFAULT;
 
@@ -72,6 +72,15 @@ bool KWrite::Render()
 {
     return false;
 }
+//D2D1_RECT_L RectL(
+//    LONG left = 0.f,
+//    LONG top = 0.f,
+//    LONG right = 0.f,
+//    LONG bottom = 0.f)
+//{
+//    D2D1::Rect<LONG> = RECTL(left, top, right, bottom);
+//    return D2D1::Rect<LONG>(left, top, right, bottom);
+//}
 bool KWrite::DrawText(RECT rt,
     const TCHAR* data, D2D1::ColorF color,
     IDWriteTextFormat* pTextFormat)
@@ -80,7 +89,8 @@ bool KWrite::DrawText(RECT rt,
     {
         m_pRT->BeginDraw();
         m_pRT->SetTransform(D2D1::IdentityMatrix());
-        D2D1_RECT_F rect = D2D1::RectF(rt.left, rt.top, rt.right, rt.bottom);
+        
+        D2D1_RECT_F rect = (D2D1_RECT_F)(D2D1::RectF(rt.left, rt.top, rt.right, rt.bottom));
         m_pTextBrush->SetColor(color);
         if (pTextFormat == nullptr)
         {
@@ -98,13 +108,12 @@ bool KWrite::DrawText(RECT rt,
 }
 bool KWrite::Release()
 {
-    if (m_pd2dFactory) m_pd2dFactory->Release();
-    if (m_pdWriteFactory) m_pdWriteFactory->Release();
-    if (m_pRT) m_pRT->Release();
-    if (m_pTextFormat) m_pTextFormat->Release();
-    if (m_pTextFormat50) m_pTextFormat50->Release();
-    if (m_pTextBrush) m_pTextBrush->Release();
+    IFRELEASE(m_pd2dFactory)
+    IFRELEASE(m_pdWriteFactory)
+    IFRELEASE(m_pRT)
+    IFRELEASE(m_pTextFormat)
+    IFRELEASE(m_pTextFormat50)
+    IFRELEASE(m_pTextBrush)
 
-    return false;
     return false;
 }
