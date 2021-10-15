@@ -48,7 +48,7 @@ public:
 	std::vector<DWORD>  m_CornerList;
 	std::vector<DWORD>  m_IndexList;
 	ID3D11Buffer* m_pIndexBuffer;
-	std::vector<SimpleVertex>  m_pVertexList;
+	std::vector<PNCT_VERTEX>  m_pVertexList;
 	ID3D11Buffer* m_pVertexBuffer;
 	TVector3			m_vCenter;
 	KNode* m_pChild[4];

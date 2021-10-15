@@ -37,7 +37,7 @@ bool KModel::LoadObject(std::wstring filename)
     int index = 0;
     for (int iLine = 0; iLine < inumVertex; iLine++)
     {
-        SimpleVertex vtmp;
+        PNCT_VERTEX vtmp;
         _fgetts(obejct, 256, FObject);
         _stscanf_s(obejct, _T("%d %f %f %f %f %f %f %f"), &index, &vtmp.pos.x, &vtmp.pos.y, &vtmp.pos.z,
             &vtmp.color.x, &vtmp.color.y, &vtmp.color.z, &vtmp.color.w);
@@ -61,7 +61,7 @@ HRESULT KModel::CreateVertexBuffer()
 
     D3D11_BUFFER_DESC pDec;
     ZeroMemory(&pDec, sizeof(D3D11_BUFFER_DESC));
-    pDec.ByteWidth = sizeof(SimpleVertex) * m_VertexList.size();
+    pDec.ByteWidth = sizeof(PNCT_VERTEX) * m_VertexList.size();
     pDec.Usage = D3D11_USAGE_DEFAULT;
     pDec.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
@@ -106,8 +106,10 @@ HRESULT KModel::LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile)
 
     D3D11_INPUT_ELEMENT_DESC pInputLayout[]
     {
-        {"POSI", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"NOMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 24, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
     UINT numLayout = sizeof(pInputLayout) / sizeof(pInputLayout[0]);
 
@@ -160,11 +162,10 @@ HRESULT KModel::LoadShader(LPCWSTR vsFile, LPCWSTR psFile)
             "error", MB_OK);
         return hr;
     }
-
+  
     hr = g_pd3dDevice->CreatePixelShader(m_pPStemp->GetBufferPointer(), m_pPStemp->GetBufferSize(), NULL, &m_pPS);
     HRFAILED
     m_pPStemp->Release();
-
     hr = g_pd3dDevice->CreateVertexShader(m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), NULL, &m_pVS);
     HRFAILED
 
@@ -226,11 +227,12 @@ bool KModel::PreRender()
     m_pContext->VSSetShader(m_pVS, NULL, 0);
     m_pContext->PSSetShader(m_pPS, NULL, 0);
     m_pContext->IASetInputLayout(m_pVertexLayout);
-    UINT pStrides = sizeof(SimpleVertex);
+    UINT pStrides = sizeof(PNCT_VERTEX);
     UINT pOffsets = 0;
     m_pContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer,
         &pStrides, &pOffsets);
-    m_pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    //m_pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+      
     
     return true;
 }

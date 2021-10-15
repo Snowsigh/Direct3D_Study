@@ -1,24 +1,23 @@
 #pragma once
 #include "KStd.h"
 #include "KDevice.h"
-struct SimpleVertex
+
+
+struct PNCT_VERTEX
 {
 	TVector3 pos;
+	TVector3 normal;
 	TVector4 color;
-	SimpleVertex(TVector3 p, TVector4 c)
+	TVector2 tex;
+	PNCT_VERTEX()
 	{
-		pos = p;
-		color = c;
+		color.x = 1.0f;
+		color.y = 1.0f;
+		color.z = 1.0f;
+		color.w = 1.0f;
 	}
-	SimpleVertex()
-	{
-		pos = { 0.5f,0.5f,0.5f };
-		color = { 0.5f,0.5f,0.5f,0.5f };
-	}
-	float x;
-	float y;
-	float z;
 };
+
 
 struct KB_Data
 {
@@ -45,7 +44,7 @@ public:
 	ID3DBlob* m_pVStemp;
 	ID3DBlob* m_pPStemp;
 
-	std::vector<SimpleVertex> m_VertexList;
+	std::vector<PNCT_VERTEX> m_VertexList;
 	std::vector<DWORD> m_IndexList;
 	ID3D11DeviceContext* m_pContext;
 	
@@ -57,23 +56,23 @@ public:
 	virtual	HRESULT CreateIndexBuffer() ;
 
 public:
-	HRESULT	CreateVertexBuffer() ;
-	HRESULT CreateConstantBuffer();
-	HRESULT	LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile);
-	HRESULT LoadShader(LPCWSTR vsFile, LPCWSTR psFile);
+	virtual	HRESULT	CreateVertexBuffer() ;
+	virtual	HRESULT CreateConstantBuffer();
+	virtual	HRESULT	LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile);
+	virtual	HRESULT LoadShader(LPCWSTR vsFile, LPCWSTR psFile);
 
-	bool Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile);
+	virtual	bool Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile);
 
-	bool LoadObject(std::wstring filename);
+	virtual	bool LoadObject(std::wstring filename);
 
 public:
 
-	bool   Init();
-	bool   Frame();
-	bool   PreRender();
+	virtual bool   Init();
+	virtual bool   Frame();
+	virtual bool   PreRender();
 	virtual	bool   Render();
-	bool	PostRender(UINT iNumIndex);
-	bool   Release();
+	virtual bool	PostRender(UINT iNumIndex);
+	virtual bool   Release();
 	KModel();
 	virtual ~KModel() {};
 };

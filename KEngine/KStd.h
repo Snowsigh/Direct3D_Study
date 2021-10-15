@@ -16,8 +16,9 @@
 #include "KMartrix.h"
 #include "SimpleMath.h"
 #include "TMath.h"
+#include "fbxsdk.h"
 
-
+#pragma comment (lib,"libfbxsdk-md.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
@@ -25,6 +26,9 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"KEngine.lib")
 #pragma comment(lib,"DirectXTK.lib")
+#pragma comment(lib,"libfbxsdk-md.lib")
+#pragma comment(lib, "libxml2-md.lib")
+#pragma comment(lib, "zlib-md.lib")
 
 using namespace DirectX::SimpleMath;
 

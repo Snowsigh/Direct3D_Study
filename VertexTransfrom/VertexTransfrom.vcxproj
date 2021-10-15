@@ -118,12 +118,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\\..\\Include;..\\..\\Include\\Dxtk</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\\..\\Include;..\\..\\Include\\Dxtk;..\\..\\FBX\\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\\..\\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\\..\\Lib;..\\..\\FBX\\lib\\vs2017\\x64\\debug\\</AdditionalLibraryDirectories>
       <AdditionalDependencies>KEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -144,11 +144,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="KTexture.h" />
     <ClInclude Include="Sample.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KTexture.cpp" />
     <ClCompile Include="Sample.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -122,7 +122,7 @@ bool	KCore::Frame() {
 }
 bool	KCore::PreRender(){
 
-    float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 0.8f }; //red,green,blue,alpha
+    float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 0.8f }; //red,green,blue,alpha
     m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, ClearColor);
 
     if (m_bDebugText)
