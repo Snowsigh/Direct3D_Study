@@ -38,6 +38,8 @@ bool KTexture::LoadTexture(std::wstring texFileName)
         hr = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, texFileName.c_str(), &m_pTexture, &m_pTextureSRV);
     }
     HRFAILED
+
+    m_pSampler =  CreateSampler();
     return true;
 }
 

@@ -6,12 +6,10 @@ bool	Sample::Init()
 {
     //m_kTex.LoadTexture(L"../../Data/bitmap1.bmp");
     
-    m_kFbxObj.LoadObject("../../Data/box.FBX", m_pImmediateContext);
+    m_kFbxObj.LoadObject("../../Data/Object/ship.FBX", m_pImmediateContext);
     
     SetUpCamera(TVector3(0,0,-50),TVector3(0,0,0));
-    
-    m_pImmediateContext->PSSetSamplers(0, 1, &m_kFbxObj.m_kTexture.m_pSampler);
-    m_pImmediateContext->PSSetShaderResources(1, 1, &m_kFbxObj.m_kTexture.m_pTextureSRV);
+
 
     return true;
 }

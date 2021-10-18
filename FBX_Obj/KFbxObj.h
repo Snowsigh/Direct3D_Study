@@ -1,11 +1,11 @@
 #pragma once
 #include <KModel.h>
 #include <KTexture.h>
-#include <KStd.h>
 #include "KMesh.h"
 
 struct KMtrl
 {
+    
     FbxNode* m_pFbxNode;
     FbxSurfaceMaterial* m_pFbxMtrl;
     KTexture m_Texture;
@@ -17,6 +17,12 @@ struct KMtrl
         {
             data->Release();
         }
+    }
+    KMtrl() {};
+    KMtrl(FbxNode* pNode, FbxSurfaceMaterial* pFbxMtrl)
+    {
+        m_pFbxNode = pNode;
+        m_pFbxMtrl = pFbxMtrl;
     }
 };
 
@@ -30,7 +36,7 @@ class KFbxObj :
    
 public:
     KTexture m_kTexture;
-
+    KMesh m_kMesh;
 public:
     std::vector<FbxNode*> m_pFbxNodeList;
     std::vector<KMtrl*> m_pMtrlList;
@@ -39,6 +45,9 @@ public:
 public:
     bool LoadObject(std::string filename, ID3D11DeviceContext* pContext);
     bool Release();
+    TMatrix DxConvertMatrix(TMatrix mat);
+    TMatrix ConvertMatrix(FbxMatrix& mat);
+    
 public:
     void	SetMatrixNoTranspose(TMatrix* pMatWorld, TMatrix* pMatView, TMatrix* pMatProj);
     bool    Render(ID3D11DeviceContext* pContext);
@@ -48,7 +57,6 @@ public:
 public:
     void	PreProcess(FbxNode* pNode);
     void	ParseNode(FbxNode* pNode, KMesh* pMesh);
-    FbxVector2 ReadTextureCoord(FbxMesh* pFbxMesh, DWORD dwVertexTextureCount, FbxLayerElementUV* pUVSet, int vertexIndex, int uvIndex);
-
+    
 };
 

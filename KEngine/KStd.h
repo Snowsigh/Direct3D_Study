@@ -29,7 +29,6 @@
 #pragma comment(lib,"libfbxsdk-md.lib")
 #pragma comment(lib, "libxml2-md.lib")
 #pragma comment(lib, "zlib-md.lib")
-
 using namespace DirectX::SimpleMath;
 
 extern float g_fGameTimer;
@@ -75,4 +74,4 @@ namespace KBASE
 #define GAME(WindowName, Width, Height) GAMEINIT GAMERUN(WindowName, Width, Height)
 
 #define HRFAILED if(FAILED(hr))return hr;
-#define IFRELEASE(a) if(a)a->Release();
+#define IFRELEASE(A) if(A)A->Release(); (A)=NULL;

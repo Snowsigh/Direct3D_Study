@@ -199,12 +199,17 @@ bool KModel::Init()
 bool KModel::Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile)
 {
     m_pContext = pContext;
-    if (CreateVertexData() && CreateIndexData())
+    CreateConstantBuffer();
+    if (CreateVertexData())
     {
         CreateVertexBuffer();
+    }
+    if (CreateIndexData())
+    {
         CreateIndexBuffer();
-        CreateConstantBuffer();
-        LoadShaderAndInputLayout(vsFile, psFile);
+    }
+    if (SUCCEEDED(LoadShaderAndInputLayout(vsFile, psFile)))
+    {
         return true;
     }
     return false;
@@ -247,10 +252,16 @@ bool KModel::Render()
 }
 bool KModel::PostRender(UINT iNumIndex)
 {
-    m_pContext->IASetPrimitiveTopology(
-        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    m_pContext->DrawIndexed(iNumIndex, 0, 0);
-    return true;
+
+    if (iNumIndex > 0)
+    {
+        m_pContext->DrawIndexed(iNumIndex, 0, 0);
+    }
+    else
+    {
+        m_pContext->Draw(m_VertexList.size(), 0);
+    }
+    return false;
 }
 
 bool KModel::Release()
