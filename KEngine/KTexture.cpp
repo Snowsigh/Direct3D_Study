@@ -19,23 +19,19 @@ bool KTexture::Release()
 {
     IFRELEASE(m_pTexture)
     IFRELEASE(m_pTextureSRV)
+        IFRELEASE(m_pSampler)
+        m_pSampler = nullptr;
     m_pTexture = nullptr;
     m_pTextureSRV = nullptr;
-    return true;
-}
-bool KTexture::SamplerRelease()
-{
-    IFRELEASE(m_pSampler)
-    m_pSampler = nullptr;
     return true;
 }
 
 bool KTexture::LoadTexture(std::wstring texFileName)
 {
-    HRESULT hr = DirectX::CreateWICTextureFromFile(g_pd3dDevice, texFileName.c_str(), &m_pTexture, &m_pTextureSRV);
+    HRESULT hr = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, texFileName.c_str(), &m_pTexture, &m_pTextureSRV);
     if (FAILED(hr))
     {
-        hr = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, texFileName.c_str(), &m_pTexture, &m_pTextureSRV);
+        hr = DirectX::CreateWICTextureFromFile(g_pd3dDevice, texFileName.c_str(), &m_pTexture, &m_pTextureSRV);
     }
     HRFAILED
 
@@ -55,4 +51,11 @@ ID3D11SamplerState* KTexture::CreateSampler()
    g_pd3dDevice->CreateSamplerState(&sd, &pSampler);
    return pSampler;
 
+}
+
+KTexture::KTexture()
+{
+    m_pTexture = nullptr;
+    m_pTextureSRV = nullptr;
+    m_pSampler = nullptr;
 }

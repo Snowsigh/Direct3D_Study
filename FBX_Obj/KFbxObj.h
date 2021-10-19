@@ -15,8 +15,12 @@ struct KMtrl
         m_Texture.Release();
         for (auto& data : m_pSubMtrl)
         {
+            
             data->Release();
+            
+            delete data;
         }
+        
     }
     KMtrl() {};
     KMtrl(FbxNode* pNode, FbxSurfaceMaterial* pFbxMtrl)
@@ -47,16 +51,17 @@ public:
     bool Release();
     TMatrix DxConvertMatrix(TMatrix mat);
     TMatrix ConvertMatrix(FbxMatrix& mat);
-    
+    TMatrix ParseTransform(FbxNode* pNode, TMatrix& matParent);
 public:
     void	SetMatrixNoTranspose(TMatrix* pMatWorld, TMatrix* pMatView, TMatrix* pMatProj);
-    bool    Render(ID3D11DeviceContext* pContext);
+    bool    Render();
     int     GetRootMtrl(FbxSurfaceMaterial* pFbxMaterial);
     void	LoadMaterial(KMtrl* pMtrl);
    
 public:
     void	PreProcess(FbxNode* pNode);
     void	ParseNode(FbxNode* pNode, KMesh* pMesh);
+    void	ParseMesh(FbxNode* pNode, KMesh* pMesh);
     
 };
 

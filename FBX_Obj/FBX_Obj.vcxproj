@@ -152,6 +152,9 @@
     <ClCompile Include="KFbxObj.cpp" />
     <ClCompile Include="KMesh.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="Why.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="FbxShader.txt" />
