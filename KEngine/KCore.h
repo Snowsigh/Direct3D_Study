@@ -10,7 +10,7 @@
 #include "KCamara.h"
 #include "KQuadTree.h"
 #include "KTexture.h"
-
+#include "KFbxObj.h"
 class KCore : public KWindow
 {
 
