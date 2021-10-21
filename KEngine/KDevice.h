@@ -16,7 +16,8 @@ public:
 	ID3D11DeviceContext* m_pImmediateContext;// 디바이스 컨텍스트
 	D3D_DRIVER_TYPE			m_DriverType;		// 디바이스 타입
 	D3D_FEATURE_LEVEL       m_FeatureLevel;		// DirectX의 기능수준
-
+	ID3D11DepthStencilView* m_pDepthStencilView; // depth
+	ID3D11DepthStencilState* m_pDsvState; // depth
 	
 public:
 	void DX_CHECK(HRESULT hr, const TCHAR* funtion);
@@ -25,9 +26,12 @@ public:
 	HRESULT CreateSwapChain(HWND hWnd, UINT iWidth, UINT iHeight);
 	HRESULT	SetRenderTargetView();
 	HRESULT	SetViewPort();
+public:
 	bool CleanupDevice();
 	bool SetDevice();
-
+public:
+	HRESULT     CreateDepthStencilView();
+	HRESULT     CreateDepthStencilState();
 public:
 	KDevice(void);
 	virtual ~KDevice(void);

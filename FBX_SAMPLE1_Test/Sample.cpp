@@ -4,7 +4,8 @@ GAME(KGCA, 800, 600);
 
 bool	Sample::Init()
 {
-    m_kobj.LoadObject("../../Data/Object/ship.FBX", m_pImmediateContext);
+
+    m_kobj.LoadObject("../../Data/Object/multiCamera.FBX", m_pImmediateContext);
     SetUpCamera(TVector3(0,0,-30),TVector3(0,0,0));
     
 
@@ -26,7 +27,8 @@ bool	Sample::Render()
 bool	Sample::Release()
 {
     m_kobj.Release();
+
+
     return true;
 }
-
 

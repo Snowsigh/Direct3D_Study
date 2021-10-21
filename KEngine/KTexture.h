@@ -19,7 +19,6 @@ public:
 	bool   Render();
 	bool   Release();
 	bool   LoadTexture(std::wstring texFileName);
-	ID3D11SamplerState*   CreateSampler();
 public:
 	KTexture();
 };

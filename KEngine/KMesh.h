@@ -25,6 +25,7 @@ public:
 	TMatrix				m_matWorld;
 	KMesh*				m_pParent;
 	std::vector<KMesh*> m_pSubMesh;
+	std::vector<TMatrix> m_AnimationTrack;
 
 public:
 	FbxColor ReadColor(const FbxMesh* mesh,

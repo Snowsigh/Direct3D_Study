@@ -88,11 +88,19 @@ bool	KCore::GameRender()
 {
     PreRender();
     m_kTimer.Render();
-    g_Input.Render();
     m_kWrite.Render();
+    g_Input.Render();
+    
     //m_kModel.Render();
     
     Render();
+    
+    if (m_bDebugText)
+    {
+        RECT  rt = { 0, 0, 800, 600 };
+        m_kWrite.DrawText(rt, m_kTimer.m_szTimerString,
+            D2D1::ColorF(1, 1, 1, 1));
+    }
     PostRender();
 
     return true;
@@ -125,12 +133,11 @@ bool	KCore::PreRender(){
     float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 0.8f }; //red,green,blue,alpha
     m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, ClearColor);
 
-    if (m_bDebugText)
-    {
-        RECT  rt = { 0, 0, 800, 600 };
-        m_kWrite.DrawText(rt, m_kTimer.m_szTimerString,
-            D2D1::ColorF(1, 1, 1, 1));
-    }
+  
+
+    m_pImmediateContext->ClearDepthStencilView(
+        m_pDepthStencilView,
+        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
     return true;
 }

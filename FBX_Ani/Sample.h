@@ -5,15 +5,13 @@
 class Sample : public KCore
 {
 public:
-	KFbxObj m_kobj;
-public:
+	KFbxObj m_obj;
 
-public:
-	
 public:
 	bool	Init();
 	bool	Frame();
 	bool	Render();
 	bool	Release();
+	
 };
 

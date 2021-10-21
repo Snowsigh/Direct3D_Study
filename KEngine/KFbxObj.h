@@ -2,7 +2,7 @@
 #include "KModel.h"
 #include "KTexture.h"
 #include "KMesh.h"
-
+#include "KFbxAni.h"
 struct KMtrl
 {
     
@@ -29,18 +29,16 @@ struct KMtrl
         m_pFbxMtrl = pFbxMtrl;
     }
 };
-
 class KFbxObj :
     public KModel
 {
-    
     FbxManager* m_pFbxManager;
     FbxImporter* m_pFbxImporter;
     FbxScene* m_pFbxScene;
-   
+
 public:
     KTexture m_kTexture;
-    KMesh m_kMesh;
+    KFbxAni m_kAni;
 public:
     std::vector<FbxNode*> m_pFbxNodeList;
     std::vector<KMtrl*> m_pMtrlList;
@@ -49,8 +47,6 @@ public:
 public:
     bool LoadObject(std::string filename, ID3D11DeviceContext* pContext);
     bool Release();
-    TMatrix DxConvertMatrix(TMatrix mat);
-    TMatrix ConvertMatrix(FbxMatrix& mat);
     TMatrix ParseTransform(FbxNode* pNode, TMatrix& matParent);
 public:
     void	SetMatrixNoTranspose(TMatrix* pMatWorld, TMatrix* pMatView, TMatrix* pMatProj);
@@ -62,6 +58,7 @@ public:
     void	PreProcess(FbxNode* pNode);
     void	ParseNode(FbxNode* pNode, KMesh* pMesh);
     void	ParseMesh(FbxNode* pNode, KMesh* pMesh);
-    
+public:
+    bool    Frame()override;
 };
 

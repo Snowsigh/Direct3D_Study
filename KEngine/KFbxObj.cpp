@@ -5,7 +5,6 @@ bool KFbxObj::LoadObject(std::string filename, ID3D11DeviceContext* pContext)
 	m_pContext = pContext;
 	//IOSSETUP DEFAULT
     m_pFbxManager = FbxManager::Create();
-	//m_kTexture.m_pSampler = m_kTexture.CreateSampler();
 	m_pFbxImporter = FbxImporter::Create(m_pFbxManager, "");
     m_pFbxScene = FbxScene::Create(m_pFbxManager, "");
     bool bRet = m_pFbxImporter->Initialize(filename.c_str());
@@ -21,6 +20,7 @@ bool KFbxObj::LoadObject(std::string filename, ID3D11DeviceContext* pContext)
 		LoadMaterial(pMtrl);
 	}
 
+	m_kAni.SetAni(m_pFbxScene);
 	ParseNode(m_pRootNode, nullptr);
 
 	for (int iMesh = 0; iMesh < m_pMeshList.size(); iMesh++) // 서브텍스처
@@ -78,7 +78,7 @@ bool KFbxObj::Render()
 					m_pMtrlList[pMesh->GetRef()]->m_pSubMtrl[iSub];
 				m_pContext->PSSetSamplers(0, 1, &pSubMtrl->m_Texture.m_pSampler);
 				m_pContext->PSSetShaderResources(1, 1, &pSubMtrl->m_Texture.m_pTextureSRV);
-				pMesh->m_pSubMesh[iSub]->SetMatrix(&pMesh->m_matWorld, &m_kbData.matView, &m_kbData.matProj);
+				pMesh->m_pSubMesh[iSub]->SetMatrix(&pMesh->m_AnimationTrack[m_kAni.m_iAnimIndex], &m_kbData.matView, &m_kbData.matProj);
 				pMesh->m_pSubMesh[iSub]->Render();
 			}
 		}
@@ -93,7 +93,7 @@ bool KFbxObj::Render()
 				m_pContext->PSSetSamplers(0, 1, &pMtrl->m_Texture.m_pSampler);
 				m_pContext->PSSetShaderResources(1, 1, &pMtrl->m_Texture.m_pTextureSRV);
 			}
-			pMesh->SetMatrix(&pMesh->m_matWorld, &m_kbData.matView, &m_kbData.matProj);
+			pMesh->SetMatrix(&pMesh->m_AnimationTrack[m_kAni.m_iAnimIndex], &m_kbData.matView, &m_kbData.matProj);
 			pMesh->Render();
 		}
 	}
@@ -137,6 +137,7 @@ void KFbxObj::LoadMaterial(KMtrl* pMtrl)
 					char Dir[MAX_PATH] = { 0, };
 					char FName[MAX_PATH] = { 0, };
 					char Ext[MAX_PATH] = { 0, };
+				
 					if (fileTexture->GetFileName())
 					{
 						_splitpath_s(fileTexture->GetFileName(), Drive, Dir, FName, Ext);
@@ -264,6 +265,8 @@ void KFbxObj::ParseNode(FbxNode* pNode, KMesh* pParentMesh)
 	pMesh->m_pParent = pParentMesh;
 	pMesh->m_matWorld = ParseTransform(pNode, matParent);
 
+	m_kAni.ParseAnimationNode(pNode, pMesh);
+
 	if (pNode->GetMesh())
 	{
 		ParseMesh(pNode, pMesh);
@@ -301,29 +304,6 @@ bool KFbxObj::Release()
 	return true;
 }
 
-TMatrix KFbxObj::DxConvertMatrix(TMatrix mat)
-{
-	TMatrix tmp;
-	tmp._11 = mat._11; tmp._12 = mat._13; tmp._13 = mat._12;
-	tmp._21 = mat._31; tmp._22 = mat._33; tmp._23 = mat._32;
-	tmp._31 = mat._21; tmp._32 = mat._23; tmp._33 = mat._22;
-	tmp._41 = mat._41; tmp._42 = mat._43; tmp._43 = mat._42;
-	tmp._14 = tmp._24 = tmp._34 = 0.0f;
-	tmp._44 = 1.0f;
-	return tmp;
-}
-
-TMatrix KFbxObj::ConvertMatrix(FbxMatrix& mat)
-{
-	TMatrix tmp;
-	float* pMatArray = reinterpret_cast<float*>(&tmp);
-	double* pSrcArray = reinterpret_cast<double*>(&mat);
-	for (int i = 0; i < 16; i++)
-	{
-		pMatArray[i] = pSrcArray[i];
-	}
-	return tmp;
-}
 
 TMatrix   KFbxObj::ParseTransform(FbxNode* pNode, TMatrix& matParent)
 {
@@ -332,7 +312,7 @@ TMatrix   KFbxObj::ParseTransform(FbxNode* pNode, TMatrix& matParent)
 	FbxVector4 transLcl = pNode->LclTranslation.Get();
 	FbxVector4 scaleLcl = pNode->LclScaling.Get();
 	FbxMatrix matTransform(transLcl, rotLcl, scaleLcl);
-	TMatrix matLocal = DxConvertMatrix(ConvertMatrix(matTransform));
+	TMatrix matLocal = KBASE::DxConvertMatrix(KBASE::ConvertMatrix(matTransform));
 	TMatrix matWorld = matLocal * matParent;
 	return matWorld;
 }
@@ -404,6 +384,8 @@ void	KFbxObj::ParseMesh(FbxNode* pNode, KMesh* pMesh)
 		FbxLayerElementNormal* VertexNormalList =
 			pMesh->m_LayerList[0].pNormal;
 
+		KMesh m_kMesh; //Mesh 클래스의 함수 계산을 가져오기 위한 지역 클래스
+
 		for (int iPoly = 0; iPoly < m_iNumPolygon; iPoly++)
 		{
 			int iSubMtrlIndex = 0;
@@ -449,11 +431,7 @@ void	KFbxObj::ParseMesh(FbxNode* pNode, KMesh* pMesh)
 				iCornerIndex[0] = pFbxMesh->GetPolygonVertex(iPoly, 0);
 				iCornerIndex[1] = pFbxMesh->GetPolygonVertex(iPoly, iTriangle + 2);
 				iCornerIndex[2] = pFbxMesh->GetPolygonVertex(iPoly, iTriangle + 1);
-				// UV 인덱스
-				int u[3];
-				u[0] = pFbxMesh->GetTextureUVIndex(iPoly, 0);
-				u[1] = pFbxMesh->GetTextureUVIndex(iPoly, iTriangle + 2);
-				u[2] = pFbxMesh->GetTextureUVIndex(iPoly, iTriangle + 1);
+				
 
 				for (int iIndex = 0;
 					iIndex < 3;
@@ -462,16 +440,21 @@ void	KFbxObj::ParseMesh(FbxNode* pNode, KMesh* pMesh)
 					PNCT_VERTEX vertex;
 					FbxVector4 pos = pVertexPositions[iCornerIndex[iIndex]];
 					FbxVector4 vPos = matGeom.MultT(pos);
-					vertex.pos.x = vPos.mData[0];
-					vertex.pos.y = vPos.mData[2];
-					vertex.pos.z = vPos.mData[1];
+					vertex.pos.x = (float)vPos.mData[0];
+					vertex.pos.y = (float)vPos.mData[2];
+					vertex.pos.z = (float)vPos.mData[1];
 					if (VertexUVList != nullptr)
 					{
+						// UV 인덱스
+						int uvIndex[3];
+						uvIndex[0] = pFbxMesh->GetTextureUVIndex(iPoly, 0);
+						uvIndex[1] = pFbxMesh->GetTextureUVIndex(iPoly, iTriangle + 2);
+						uvIndex[2] = pFbxMesh->GetTextureUVIndex(iPoly, iTriangle + 1);
 						FbxVector2 uv = m_kMesh.ReadTextureCoord(
 							pFbxMesh, 1, VertexUVList,
-							iCornerIndex[iIndex], u[iIndex]);
-						vertex.tex.x = uv.mData[0];
-						vertex.tex.y = 1.0f - uv.mData[1];
+							iCornerIndex[iIndex], uvIndex[iIndex]);
+						vertex.tex.x = (float)(uv.mData[0]);
+						vertex.tex.y = (float)(1.0f - uv.mData[1]);
 					}
 					if (VertexColorList != nullptr)
 					{
@@ -483,10 +466,12 @@ void	KFbxObj::ParseMesh(FbxNode* pNode, KMesh* pMesh)
 						FbxColor color = m_kMesh.ReadColor(
 							pFbxMesh, 1, VertexColorList,
 							iCornerIndex[iIndex], iColorIndex[iIndex]);
-						vertex.color.x = color.mRed;
-						vertex.color.y = color.mGreen;
-						vertex.color.z = color.mBlue;
+						vertex.color.x = (float)color.mRed;
+						vertex.color.y = (float)color.mGreen;
+						vertex.color.z = (float)color.mBlue;
 						vertex.color.w = 1.0f;
+
+						
 
 					}
 					if (VertexNormalList != nullptr)
@@ -498,13 +483,14 @@ void	KFbxObj::ParseMesh(FbxNode* pNode, KMesh* pMesh)
 						FbxVector4 normal = m_kMesh.ReadNormal(
 							pFbxMesh, 1, VertexNormalList,
 							iCornerIndex[iIndex], iNormalIndex[iIndex]);
-						vertex.normal.x = normal.mData[0];
-						vertex.normal.y = normal.mData[2];
-						vertex.normal.z = normal.mData[1];
+						vertex.normal.x = (float)normal.mData[0];
+						vertex.normal.y = (float)normal.mData[2];
+						vertex.normal.z = (float)normal.mData[1];
 					}
 					if (iNumFbxMaterial > 1)
 					{
 						pMesh->m_pSubMesh[iSubMtrlIndex]->m_VertexList.push_back(vertex);
+						
 					}
 					else
 					{
@@ -515,4 +501,16 @@ void	KFbxObj::ParseMesh(FbxNode* pNode, KMesh* pMesh)
 			iBasePolyIndex += iPolySize;
 		}
 	}
+}
+
+bool KFbxObj::Frame()
+{
+	m_kAni.m_fElpaseTime += g_fSPF * 1.0f;
+	m_kAni.m_iAnimIndex = (int)(m_kAni.m_fElpaseTime * 30.0f);
+	if (m_kAni.m_fEndTime < m_kAni.m_fElpaseTime)
+	{
+		m_kAni.m_iAnimIndex = 0;
+		m_kAni.m_fElpaseTime = 0;
+	}
+	return false;
 }

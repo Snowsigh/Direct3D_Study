@@ -62,6 +62,44 @@ namespace KBASE
 	}
 	static TCHAR g_szDataPath[] = L"../../Data/";
 	static TCHAR g_szPath[] = L"../../";
+
+	static TMatrix DxConvertMatrix(TMatrix mat)
+	{
+		TMatrix tmp;
+		tmp._11 = mat._11; tmp._12 = mat._13; tmp._13 = mat._12;
+		tmp._21 = mat._31; tmp._22 = mat._33; tmp._23 = mat._32;
+		tmp._31 = mat._21; tmp._32 = mat._23; tmp._33 = mat._22;
+		tmp._41 = mat._41; tmp._42 = mat._43; tmp._43 = mat._42;
+		tmp._14 = tmp._24 = tmp._34 = 0.0f;
+		tmp._44 = 1.0f;
+		return tmp;
+	}
+
+	static TMatrix ConvertMatrix(FbxMatrix& mat)
+	{
+		TMatrix tmp;
+
+		float* pMatArray = reinterpret_cast<float*>(&tmp);
+		double* pSrcArray = reinterpret_cast<double*>(&mat);
+		for (int i = 0; i < 16; i++)
+		{
+			pMatArray[i] = (float)pSrcArray[i];
+		}
+		return tmp;
+	}
+
+	static TMatrix ConvertMatrix(FbxAMatrix& mat)
+	{
+		TMatrix tmp;
+
+		float* pMatArray = reinterpret_cast<float*>(&tmp);
+		double* pSrcArray = reinterpret_cast<double*>(&mat);
+		for (int i = 0; i < 16; i++)
+		{
+			pMatArray[i] = (float)pSrcArray[i];
+		}
+		return tmp;
+	}
 }
 
 #define randf(x) (x*rand()/(float)RAND_MAX)

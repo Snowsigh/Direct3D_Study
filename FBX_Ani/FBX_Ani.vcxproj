@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a546440a-157c-4f7c-89bf-c930afdfad37}</ProjectGuid>
-    <RootNamespace>KEngine</RootNamespace>
+    <ProjectGuid>{fc22026c-cd60-4ce0-923d-23227fb44562}</ProjectGuid>
+    <RootNamespace>FBX_Ani</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -72,8 +72,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../OutPut</OutDir>
-    <IntDir>../../OutPut/KEngine</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -81,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../OutPut</OutDir>
-    <IntDir>../../OutPut/KEngine</IntDir>
+    <IntDir>../../OutPut/VertexTF</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -90,18 +88,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "..\\OutPut\\KEngine.lib" "..\\Lib\\KEngine.lib"
-copy "*.h" "..\\Include"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -109,12 +102,11 @@ copy "*.h" "..\\Include"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,23 +116,16 @@ copy "*.h" "..\\Include"</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\\..\\Include\\Dxtk;..\\..\\FBX\\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\\..\\Include;..\\..\\Include\\Dxtk;..\\..\\FBX\\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\\..\\Lib;..\\..\\FBX\\lib\\vs2017\\x64\\debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>KEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "..\\..\\Output\\KEngine.lib" "..\\..\\Lib\\KEngine.lib"
-copy "*.h" "..\\..\\Include\\"
-</Command>
-    </PostBuildEvent>
-    <Lib>
-      <AdditionalLibraryDirectories>..\\..\\FBX\\lib\\vs2017\\x64\\debug</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -148,62 +133,27 @@ copy "*.h" "..\\..\\Include\\"
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="KCamara.cpp" />
-    <ClCompile Include="KCore.cpp" />
-    <ClCompile Include="KDevice.cpp" />
-    <ClCompile Include="KFbxAni.cpp" />
-    <ClCompile Include="KFbxObj.cpp" />
-    <ClCompile Include="KInput.cpp" />
-    <ClCompile Include="KMap.cpp" />
-    <ClCompile Include="KMartirx.cpp" />
-    <ClCompile Include="KMesh.cpp" />
-    <ClCompile Include="KModel.cpp" />
-    <ClCompile Include="KNode.cpp" />
-    <ClCompile Include="KObject.cpp" />
-    <ClCompile Include="KQuadTree.cpp" />
-    <ClCompile Include="KTexture.cpp" />
-    <ClCompile Include="KTimer.cpp" />
-    <ClCompile Include="KVector.cpp" />
-    <ClCompile Include="KWindow.cpp" />
-    <ClCompile Include="KWrite.cpp" />
-    <ClCompile Include="TMath.cpp" />
+    <ClInclude Include="KFbxAni.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Sample.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="KCamara.h" />
-    <ClInclude Include="KCore.h" />
-    <ClInclude Include="KDevice.h" />
-    <ClInclude Include="KFbxAni.h" />
-    <ClInclude Include="KFbxObj.h" />
-    <ClInclude Include="KInput.h" />
-    <ClInclude Include="KMap.h" />
-    <ClInclude Include="KMartrix.h" />
-    <ClInclude Include="KMesh.h" />
-    <ClInclude Include="KModel.h" />
-    <ClInclude Include="KNode.h" />
-    <ClInclude Include="KObject.h" />
-    <ClInclude Include="KQuadTree.h" />
-    <ClInclude Include="KStd.h" />
-    <ClInclude Include="KTexture.h" />
-    <ClInclude Include="KTimer.h" />
-    <ClInclude Include="KVector.h" />
-    <ClInclude Include="KWindow.h" />
-    <ClInclude Include="KWrite.h" />
-    <ClInclude Include="TMath.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClCompile Include="KFbxAni.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Sample.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
