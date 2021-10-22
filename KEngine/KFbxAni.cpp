@@ -7,20 +7,26 @@ bool KFbxAni::SetAni(FbxScene* obj)
 	return true;
 }
 
-void KFbxAni::ParseAnimationNode(FbxNode* pNode, KMesh* pMesh)
+void KFbxAni::ParseAnimationNode(std::vector<KMesh*> pMeshList)
 {
 	// 에니메이션 데이터 저장
-	FbxAnimEvaluator* pAnim = m_pFbxS-> GetAnimationEvaluator();
+	FbxAnimEvaluator* pAnim = m_pFbxS->GetAnimationEvaluator();
+
 	float fCurrentTime = m_fStartTime;
 	while (fCurrentTime < m_fEndTime)
 	{
 		FbxTime time;
 		time.SetSecondDouble(fCurrentTime);
-		FbxAMatrix matGlobal = pAnim->GetNodeGlobalTransform(pNode, time);
-		TMatrix matGlobaDX = KBASE::DxConvertMatrix(KBASE::ConvertMatrix(matGlobal));
-		pMesh->m_AnimationTrack.push_back(matGlobaDX);
+		for (int iMesh = 0; iMesh < pMeshList.size(); iMesh++)
+		{
+			KMesh* pMesh = pMeshList[iMesh];
+			FbxAMatrix matGlobal = pAnim->GetNodeGlobalTransform(pMesh->m_pFbxNode, time);
+			TMatrix matGlobaDX = KBASE::DxConvertMatrix(KBASE::ConvertMatrix(matGlobal));
+			pMesh->m_AnimationTrack.push_back(matGlobaDX);
+		}
 		fCurrentTime += m_fSampleTime;
 	}
+
 }
 
 void KFbxAni::ParseAnimation()
@@ -61,4 +67,44 @@ void KFbxAni::ParseAnimStack(FbxString* szData)
 		m_fStartTime = (float)tlTimeSpan.GetStart().GetSecondDouble();
 		m_fEndTime = (float)tlTimeSpan.GetStop().GetSecondDouble();
 	}
+}
+
+bool KFbxAni::ParseMeshSkinning(FbxMesh* pFbxMesh, KMesh* pMesh, KSkinData* pSkindata)
+{
+	int iNumDeformer = pFbxMesh->GetDeformerCount(FbxDeformer::eSkin);
+	if (iNumDeformer == 0)
+	{
+		return false;
+	}
+	int iNumVertexCount = pFbxMesh->GetControlPointsCount();
+	pSkindata->m_VertexList.resize(iNumVertexCount);
+
+	for (int iDeformer = 0; iDeformer < iNumDeformer; iDeformer++)
+	{
+		FbxDeformer* pFbxDeformer = pFbxMesh->GetDeformer(iDeformer, FbxDeformer::eSkin);
+		FbxSkin* pSkin = (FbxSkin*)pFbxDeformer;
+		int iNumCluster = pSkin->GetClusterCount();
+		// 영향을 미치는 행렬이 iNumCluster 있다.
+		for (int iCluster = 0; iCluster < iNumCluster; iCluster++)
+		{
+			FbxCluster* pCluster = pSkin->GetCluster(iCluster);
+			// 영향을 미치는 행렬이 iClusterSize 정점에 영향을 미친다.
+			int iNumVertex = pCluster->GetControlPointIndicesCount();
+
+			FbxNode* pLinkNode = pCluster->GetLink();
+			pSkindata->m_MatrixList.push_back(pLinkNode);
+			int iMatrixIndex = pSkindata->m_MatrixList.size() - 1;
+			//ControlPoint(제어점) 정점리스트
+			int* iIndex = pCluster->GetControlPointIndices();
+			// 가중치리스트
+			double* pWeight = pCluster->GetControlPointWeights();
+			for (int i = 0; i < iNumVertex; i++)
+			{
+				pSkindata->m_VertexList[iIndex[i]].m_IndexList.push_back(iMatrixIndex);
+				pSkindata->m_VertexList[iIndex[i]].m_WegihtList.push_back(pWeight[i]);
+				//iIndex[i] 정점은  iMatrixIndex행렬이 pWeight[i]=1 가중치로 영향을 미친다.				
+			}
+		}
+	}
+	return true;
 }

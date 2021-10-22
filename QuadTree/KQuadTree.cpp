@@ -286,7 +286,7 @@ void    KQuadTree::Build(KMap* pMap)
 	SetNeighborNode();
 	// lod patch (전체 가로 개수(9), 리프노드 깊이(1))
 	m_iNumCell = (m_iNumCol - 1) / pow(2.0f, m_iMaxDepth);
-	m_iNumPatch = (log(m_iNumCell) / log(2.0f));
+	m_iNumPatch = (int)(log(m_iNumCell) / (int)log(2.0f));
 	/*if (m_iNumPatch > 0)
 	{
 		m_LodPatchlist.resize(m_iNumPatch);   << ?? 왜안되지? 

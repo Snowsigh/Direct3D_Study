@@ -13,6 +13,12 @@ struct KLayer
 	FbxLayerElementNormal* pNormal;
 	FbxLayerElementMaterial* pMaterial;
 };
+struct PNCTIW_VERTEX : public PNCT_VERTEX
+{
+	int     index[4];
+	float   weight[4];
+};
+
 class KMesh : public KModel
 {
 	int m_iMtrlRef;
@@ -26,7 +32,8 @@ public:
 	KMesh*				m_pParent;
 	std::vector<KMesh*> m_pSubMesh;
 	std::vector<TMatrix> m_AnimationTrack;
-
+	FbxNode* m_pFbxNode;
+	std::vector<PNCTIW_VERTEX>  m_WeightList;
 public:
 	FbxColor ReadColor(const FbxMesh* mesh,
 		DWORD dwVertexColorCount, FbxLayerElementVertexColor* VertexColorSets,

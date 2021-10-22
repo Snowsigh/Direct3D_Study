@@ -22,6 +22,7 @@ bool KFbxObj::LoadObject(std::string filename, ID3D11DeviceContext* pContext)
 
 	m_kAni.SetAni(m_pFbxScene);
 	ParseNode(m_pRootNode, nullptr);
+	m_kAni.ParseAnimationNode(m_pMeshList);
 
 	for (int iMesh = 0; iMesh < m_pMeshList.size(); iMesh++) // 서브텍스처
 	{
@@ -76,6 +77,7 @@ bool KFbxObj::Render()
 				
 				KMtrl* pSubMtrl =
 					m_pMtrlList[pMesh->GetRef()]->m_pSubMtrl[iSub];
+
 				m_pContext->PSSetSamplers(0, 1, &pSubMtrl->m_Texture.m_pSampler);
 				m_pContext->PSSetShaderResources(1, 1, &pSubMtrl->m_Texture.m_pTextureSRV);
 				pMesh->m_pSubMesh[iSub]->SetMatrix(&pMesh->m_AnimationTrack[m_kAni.m_iAnimIndex], &m_kbData.matView, &m_kbData.matProj);
@@ -255,6 +257,7 @@ void KFbxObj::ParseNode(FbxNode* pNode, KMesh* pParentMesh)
 		return;
 	}
 	KMesh* pMesh = new KMesh;
+	pMesh->m_pFbxNode = pNode;
 	pMesh->m_szName = KBASE::mtw(pNode->GetName());
 	TMatrix matParent;
 	if (pParentMesh != nullptr)
@@ -265,7 +268,7 @@ void KFbxObj::ParseNode(FbxNode* pNode, KMesh* pParentMesh)
 	pMesh->m_pParent = pParentMesh;
 	pMesh->m_matWorld = ParseTransform(pNode, matParent);
 
-	m_kAni.ParseAnimationNode(pNode, pMesh);
+	
 
 	if (pNode->GetMesh())
 	{
