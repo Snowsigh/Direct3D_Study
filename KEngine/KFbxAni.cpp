@@ -1,10 +1,22 @@
 #include "KFbxAni.h"
 
-bool KFbxAni::SetAni(FbxScene* obj)
+bool KFbxAni::SetAni(FbxScene* obj, std::vector<FbxNode*> pNodeList)
 {
 	m_pFbxS = obj;
+	m_pFNodeList = pNodeList;
 	ParseAnimation();
 	return true;
+}
+int  KFbxAni::GetFindInedx(FbxNode* pNode, std::vector<FbxNode*> pNodeList)
+{
+	for (int iNode = 0; iNode < pNodeList.size(); iNode++)
+	{
+		if (pNodeList[iNode] == pNode)
+		{
+			return iNode;
+		}
+	}
+	return -1;
 }
 
 void KFbxAni::ParseAnimationNode(std::vector<KMesh*> pMeshList)
@@ -21,7 +33,7 @@ void KFbxAni::ParseAnimationNode(std::vector<KMesh*> pMeshList)
 		{
 			KMesh* pMesh = pMeshList[iMesh];
 			FbxAMatrix matGlobal = pAnim->GetNodeGlobalTransform(pMesh->m_pFbxNode, time);
-			TMatrix matGlobaDX = KBASE::DxConvertMatrix(KBASE::ConvertMatrix(matGlobal));
+			TMatrix matGlobaDX = KBASE::DxConvertMatrix(KBASE::ConvertMatrixA(matGlobal));
 			pMesh->m_AnimationTrack.push_back(matGlobaDX);
 		}
 		fCurrentTime += m_fSampleTime;
@@ -88,11 +100,32 @@ bool KFbxAni::ParseMeshSkinning(FbxMesh* pFbxMesh, KMesh* pMesh, KSkinData* pSki
 		for (int iCluster = 0; iCluster < iNumCluster; iCluster++)
 		{
 			FbxCluster* pCluster = pSkin->GetCluster(iCluster);
+
+			FbxAMatrix matXBindPose;
+			pCluster->GetTransformLinkMatrix(matXBindPose);
+			FbxAMatrix matInitPostion;
+			pCluster->GetTransformMatrix(matInitPostion);
+			FbxAMatrix matBoneBindPos = matInitPostion.Inverse() *
+				matXBindPose;
+			TMatrix matBinePos =
+				KBASE::DxConvertMatrix(KBASE::ConvertMatrixA(matBoneBindPos));
 			// 영향을 미치는 행렬이 iClusterSize 정점에 영향을 미친다.
 			int iNumVertex = pCluster->GetControlPointIndicesCount();
 
 			FbxNode* pLinkNode = pCluster->GetLink();
+
 			pSkindata->m_MatrixList.push_back(pLinkNode);
+
+			int iBone = GetFindInedx(pLinkNode, m_pFNodeList);
+
+			_ASSERT(iBone >= 0);
+
+			pMesh->m_iBoneList.push_back(iBone);
+
+			D3DXMatrixInverse(&matBinePos, NULL, &matBinePos);
+
+			m_matBindPoseList[iBone] = matBinePos;
+
 			int iMatrixIndex = pSkindata->m_MatrixList.size() - 1;
 			//ControlPoint(제어점) 정점리스트
 			int* iIndex = pCluster->GetControlPointIndices();

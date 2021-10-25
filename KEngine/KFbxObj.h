@@ -1,7 +1,5 @@
 #pragma once
-#include "KModel.h"
 #include "KTexture.h"
-#include "KMesh.h"
 #include "KFbxAni.h"
 struct KMtrl
 {
@@ -31,21 +29,23 @@ struct KMtrl
 };
 class KFbxObj :
     public KModel
-{
+{   
     FbxManager* m_pFbxManager;
     FbxImporter* m_pFbxImporter;
     FbxScene* m_pFbxScene;
 
-public:
+public: //텍스처 및 애니메이션 클래스 인스턴스
     KTexture m_kTexture;
     KFbxAni m_kAni;
-public:
+public: // 머테리얼용 자료 리스트
+    KAnimMatrix     m_matAnimMatrix;
     std::vector<FbxNode*> m_pFbxNodeList;
     std::vector<KMtrl*> m_pMtrlList;
     std::vector<KMesh*> m_pMeshList;
     KB_Data m_kbData;
+
 public:
-    bool LoadObject(std::string filename, ID3D11DeviceContext* pContext);
+    bool LoadObject(std::string filename, LPCWSTR shadername, ID3D11DeviceContext* pContext);
     bool Release();
     TMatrix ParseTransform(FbxNode* pNode, TMatrix& matParent);
 public:

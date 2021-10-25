@@ -93,7 +93,10 @@ bool KFbxAni::ParseMeshSkinning(FbxMesh* pFbxMesh, KMesh* pMesh, KSkinData* pSki
 
 			FbxNode* pLinkNode = pCluster->GetLink();
 			pSkindata->m_MatrixList.push_back(pLinkNode);
+
+
 			int iMatrixIndex = pSkindata->m_MatrixList.size() - 1;
+
 			//ControlPoint(제어점) 정점리스트
 			int* iIndex = pCluster->GetControlPointIndices();
 			// 가중치리스트

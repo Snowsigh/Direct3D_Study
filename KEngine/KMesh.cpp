@@ -166,3 +166,105 @@ FbxVector2 KMesh::ReadTextureCoord(FbxMesh* pFbxMesh, DWORD dwVertexTextureCount
 	}
 	return uv;
 }
+
+HRESULT KMesh::CreateConstantBuffer()
+{
+	HRESULT hr = S_OK;
+	hr = KModel::CreateConstantBuffer();
+	if (m_VertexList.size() <= 0) return hr;
+
+	D3D11_BUFFER_DESC pDec;
+	ZeroMemory(&pDec, sizeof(D3D11_BUFFER_DESC));
+	pDec.ByteWidth = sizeof(KAnimMatrix);
+	pDec.Usage = D3D11_USAGE_DEFAULT;
+	pDec.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA pInitData;
+	ZeroMemory(&pInitData, sizeof(D3D11_SUBRESOURCE_DATA));
+	pInitData.pSysMem = &m_matAnimMatrix;
+
+	hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pAnimCB);
+	HRFAILED
+
+	return hr;
+}
+
+HRESULT KMesh::LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile)
+{
+	HRESULT hr;
+
+	hr = LoadShader(vsFile, psFile);
+	HRFAILED
+
+
+		D3D11_INPUT_ELEMENT_DESC pInputLayout[]
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, 
+		{"TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0},
+
+		{"INDEX", 0, DXGI_FORMAT_R32G32B32_FLOAT, 1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"WEIGHT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 1, 16, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		
+	};
+	UINT numLayout = sizeof(pInputLayout) / sizeof(pInputLayout[0]);
+
+
+
+	hr = g_pd3dDevice->CreateInputLayout(pInputLayout, numLayout, m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), &m_pVertexLayout);
+	HRFAILED
+	m_pVStemp->Release();
+
+	return hr;
+}
+
+HRESULT KMesh::CreateVertexBuffer()
+{
+	HRESULT hr;
+	hr = KModel::CreateVertexBuffer();
+
+	D3D11_BUFFER_DESC pDec;
+	ZeroMemory(&pDec, sizeof(D3D11_BUFFER_DESC));
+	pDec.ByteWidth = (UINT)(sizeof(PNCTIW_VERTEX) * m_WeightList.size());
+	pDec.Usage = D3D11_USAGE_DEFAULT;
+	pDec.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA pInitData;
+	ZeroMemory(&pInitData, sizeof(D3D11_SUBRESOURCE_DATA));
+	pInitData.pSysMem = &m_WeightList.at(0);
+
+	hr = g_pd3dDevice->CreateBuffer(&pDec, &pInitData, &m_pIWVertrexBuffer);
+	HRFAILED
+	return hr;
+}
+
+bool KMesh::PreRender()
+{
+	if (m_VertexList.size() <= 0) return true;
+	// 상수 버퍼 두개 업데이트
+	m_pContext->UpdateSubresource(
+		m_pConstantBuffer, 0, NULL, &m_kbData, 0, 0);
+	m_pContext->UpdateSubresource(
+		m_pAnimCB, 0, NULL, &m_matAnimMatrix, 0, 0);
+	m_pContext->VSSetConstantBuffers(
+		0, 1, &m_pConstantBuffer);
+	m_pContext->VSSetConstantBuffers(
+		1, 1, &m_pAnimCB);
+
+
+	m_pContext->VSSetShader(m_pVS, NULL, 0);
+	m_pContext->PSSetShader(m_pPS, NULL, 0);
+	m_pContext->IASetInputLayout(m_pVertexLayout);
+
+	ID3D11Buffer* Bf[2] = { m_pVertexBuffer, m_pIWVertrexBuffer };
+	UINT pStrides[2] = {sizeof(PNCT_VERTEX), sizeof(PNCTIW_VERTEX)};
+	UINT pOffsets[2] = {0,0};
+	m_pContext->IASetVertexBuffers(0, 2, Bf,
+		pStrides, pOffsets);
+
+	m_pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+
+	return true;
+}

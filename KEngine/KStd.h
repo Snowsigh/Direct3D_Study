@@ -88,7 +88,7 @@ namespace KBASE
 		return tmp;
 	}
 
-	static TMatrix ConvertMatrix(FbxAMatrix& mat)
+	static TMatrix ConvertMatrixA(FbxAMatrix& mat)
 	{
 		TMatrix tmp;
 
@@ -100,6 +100,15 @@ namespace KBASE
 		}
 		return tmp;
 	}
+
+	static bool Compare(const std::pair<float, int>& a, const std::pair<float, int>& b)
+	{
+		if (a.first == b.first)
+			return a.second > b.second;
+		return a.first > b.first;
+	}
+	
+
 }
 
 #define randf(x) (x*rand()/(float)RAND_MAX)

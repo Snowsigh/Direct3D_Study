@@ -13,15 +13,25 @@ struct KLayer
 	FbxLayerElementNormal* pNormal;
 	FbxLayerElementMaterial* pMaterial;
 };
-struct PNCTIW_VERTEX : public PNCT_VERTEX
+
+struct PNCTIW_VERTEX
 {
-	int     index[4];
+	float   index[4];
 	float   weight[4];
+};
+struct KAnimMatrix
+{
+	TMatrix   matAnimation[255];
 };
 
 class KMesh : public KModel
 {
 	int m_iMtrlRef;
+public:
+	std::vector<int>  m_iBoneList;
+	KAnimMatrix   m_matAnimMatrix;
+	ID3D11Buffer* m_pAnimCB;
+	ID3D11Buffer* m_pIWVertrexBuffer;
 public:
 	OBJECTCLASSTYPE     m_ClassType;
 	std::wstring		m_szName;
@@ -43,6 +53,12 @@ public:
 		int controlPointIndex, int iVertexIndex);
 	FbxVector2 ReadTextureCoord(FbxMesh* pFbxMesh, DWORD dwVertexTextureCount,
 		FbxLayerElementUV* pUVSet, int vertexIndex, int uvIndex);
+public:
+public:
+	virtual HRESULT		CreateConstantBuffer()override;
+	virtual HRESULT		LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile) override;
+	virtual HRESULT		CreateVertexBuffer()override;
+	virtual bool		PreRender()override;
 public:
 	INT GetRef()
 	{
