@@ -1,22 +1,22 @@
 #include "KFbxAni.h"
 
-bool KFbxAni::SetAni(FbxScene* obj, std::vector<FbxNode*> pNodeList)
+bool KFbxAni::SetAni(FbxScene* obj)
 {
 	m_pFbxS = obj;
-	m_pFNodeList = pNodeList;
 	ParseAnimation();
 	return true;
 }
-int  KFbxAni::GetFindInedx(FbxNode* pNode, std::vector<FbxNode*> pNodeList)
+KMesh*  KFbxAni::GetFindInedx(FbxNode* pNode, std::vector<KMesh*> pMeshList)
 {
-	for (int iNode = 0; iNode < pNodeList.size(); iNode++)
+	for (int iNode = 0; iNode < pMeshList.size(); iNode++)
 	{
-		if (pNodeList[iNode] == pNode)
+		KMesh* pMesh = pMeshList[iNode];
+		if (pMesh->m_pFbxNode == pNode)
 		{
-			return iNode;
+			return pMesh;
 		}
 	}
-	return -1;
+	return nullptr;
 }
 
 void KFbxAni::ParseAnimationNode(std::vector<KMesh*> pMeshList)
@@ -40,6 +40,7 @@ void KFbxAni::ParseAnimationNode(std::vector<KMesh*> pMeshList)
 	}
 
 }
+//
 
 void KFbxAni::ParseAnimation()
 {
@@ -54,6 +55,7 @@ void KFbxAni::ParseAnimation()
 
 void KFbxAni::ParseAnimStack(FbxString* szData)
 {
+	m_pFbxS->GetAnimationEvaluator()->Reset();
 	// Frame, Tick
 // 1Frame = 160Tick
 // frameSpeed = 1Sec Per 30Frame
@@ -97,43 +99,30 @@ bool KFbxAni::ParseMeshSkinning(FbxMesh* pFbxMesh, KMesh* pMesh, KSkinData* pSki
 		FbxSkin* pSkin = (FbxSkin*)pFbxDeformer;
 		int iNumCluster = pSkin->GetClusterCount();
 		// 영향을 미치는 행렬이 iNumCluster 있다.
+		pMesh->m_matBindPoseList.resize(iNumCluster);
 		for (int iCluster = 0; iCluster < iNumCluster; iCluster++)
 		{
 			FbxCluster* pCluster = pSkin->GetCluster(iCluster);
-
-			FbxAMatrix matXBindPose;
-			pCluster->GetTransformLinkMatrix(matXBindPose);
-			FbxAMatrix matInitPostion;
-			pCluster->GetTransformMatrix(matInitPostion);
-			FbxAMatrix matBoneBindPos = matInitPostion.Inverse() *
-				matXBindPose;
-			TMatrix matBinePos =
-				KBASE::DxConvertMatrix(KBASE::ConvertMatrixA(matBoneBindPos));
 			// 영향을 미치는 행렬이 iClusterSize 정점에 영향을 미친다.
 			int iNumVertex = pCluster->GetControlPointIndicesCount();
 
-			FbxNode* pLinkNode = pCluster->GetLink();
-
-			pSkindata->m_MatrixList.push_back(pLinkNode);
-
-			int iBone = GetFindInedx(pLinkNode, m_pFNodeList);
-
-			_ASSERT(iBone >= 0);
-
-			pMesh->m_iBoneList.push_back(iBone);
-
+			FbxAMatrix matXBindPose, matInitPostion;
+			pCluster->GetTransformLinkMatrix(matXBindPose);
+			pCluster->GetTransformMatrix(matInitPostion);
+			FbxAMatrix matBoneBindPos = matInitPostion.Inverse() * matXBindPose;
+			TMatrix matBinePos = KBASE::DxConvertMatrix(KBASE::ConvertMatrixA(matBoneBindPos));
 			D3DXMatrixInverse(&matBinePos, NULL, &matBinePos);
+			pMesh->m_matBindPoseList[iCluster] = matBinePos;
 
-			m_matBindPoseList[iBone] = matBinePos;
-
-			int iMatrixIndex = pSkindata->m_MatrixList.size() - 1;
+			FbxNode* pLinkNode = pCluster->GetLink();
+			pMesh->m_pFNodeList.push_back(pLinkNode);
 			//ControlPoint(제어점) 정점리스트
 			int* iIndex = pCluster->GetControlPointIndices();
 			// 가중치리스트
 			double* pWeight = pCluster->GetControlPointWeights();
 			for (int i = 0; i < iNumVertex; i++)
 			{
-				pSkindata->m_VertexList[iIndex[i]].m_IndexList.push_back(iMatrixIndex);
+				pSkindata->m_VertexList[iIndex[i]].m_IndexList.push_back(iCluster);
 				pSkindata->m_VertexList[iIndex[i]].m_WegihtList.push_back(pWeight[i]);
 				//iIndex[i] 정점은  iMatrixIndex행렬이 pWeight[i]=1 가중치로 영향을 미친다.				
 			}

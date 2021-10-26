@@ -260,8 +260,7 @@ bool KMesh::PreRender()
 	ID3D11Buffer* Bf[2] = { m_pVertexBuffer, m_pIWVertrexBuffer };
 	UINT pStrides[2] = {sizeof(PNCT_VERTEX), sizeof(PNCTIW_VERTEX)};
 	UINT pOffsets[2] = {0,0};
-	m_pContext->IASetVertexBuffers(0, 2, Bf,
-		pStrides, pOffsets);
+	m_pContext->IASetVertexBuffers(0, 2, Bf, pStrides, pOffsets);
 
 	m_pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 

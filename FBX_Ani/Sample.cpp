@@ -6,11 +6,17 @@ bool	Sample::Init()
 {
     m_obj.LoadObject("../../Data/Object/man.FBX",L"../../Data/Shader/CharacterShader.txt", m_pImmediateContext);
     SetUpCamera(TVector3(0, 0, -30), TVector3(0, 0, 0));
+
+    m_pObjectList.push_back(&m_obj);
     return true;
 }
 bool	Sample::Frame()
 {
-    m_obj.Frame();
+    for (int i = 0; i < m_pObjectList.size(); i++)
+    {
+        m_pObjectList[i]->Frame();
+    }
+    
     return true;
 }
 bool	Sample::Render()

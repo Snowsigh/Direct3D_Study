@@ -33,6 +33,10 @@ public:
 	ID3D11Buffer* m_pAnimCB;
 	ID3D11Buffer* m_pIWVertrexBuffer;
 public:
+	std::vector<FbxNode*>	m_pFNodeList;
+	std::vector<KMesh*> m_pMeshLinkList;
+	std::vector<TMatrix>	m_matBindPoseList;
+public:
 	OBJECTCLASSTYPE     m_ClassType;
 	std::wstring		m_szName;
 	std::wstring		m_szParentName;
@@ -77,6 +81,8 @@ public:
 			data->Release();
 			if (data)delete data;
 		}
+		if (m_pAnimCB)m_pAnimCB->Release();
+		if (m_pIWVertrexBuffer)m_pIWVertrexBuffer->Release();
 		return true;
 	}
 

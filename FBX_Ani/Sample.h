@@ -6,6 +6,7 @@ class Sample : public KCore
 {
 public:
 	KFbxObj m_obj;
+	std::vector<KFbxObj*> m_pObjectList;
 
 public:
 	bool	Init();

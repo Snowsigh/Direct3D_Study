@@ -17,10 +17,6 @@ class KFbxAni
 private:
 	FbxScene* m_pFbxS;
 public:
-	KAnimMatrix     m_matAnimMatrix;
-	std::vector<TMatrix>	m_matBindPoseList;
-	std::vector<FbxNode*>	m_pFNodeList;
-public:
 	
 	bool	m_bAnimPlay = false;
 	float   m_fElpaseTime = 0.0f;
@@ -29,8 +25,8 @@ public:
 	float m_fEndTime;
 	float m_fSampleTime;
 public:
-	bool	SetAni(FbxScene* obj, std::vector<FbxNode*> pNodeList);
-	int		GetFindInedx(FbxNode* pNode, std::vector<FbxNode*> pNodeList);
+	bool	SetAni(FbxScene* obj);
+	KMesh*		GetFindInedx(FbxNode* pNode, std::vector<KMesh*> pMeshList);
 public:
 	void	ParseAnimationNode(std::vector<KMesh*> pMeshList);
 	void	ParseAnimation();

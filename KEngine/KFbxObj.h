@@ -38,7 +38,6 @@ public: //텍스처 및 애니메이션 클래스 인스턴스
     KTexture m_kTexture;
     KFbxAni m_kAni;
 public: // 머테리얼용 자료 리스트
-    KAnimMatrix     m_matAnimMatrix;
     std::vector<FbxNode*> m_pFbxNodeList;
     std::vector<KMtrl*> m_pMtrlList;
     std::vector<KMesh*> m_pMeshList;

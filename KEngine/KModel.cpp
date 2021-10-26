@@ -199,19 +199,23 @@ bool KModel::Init()
 bool KModel::Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile)
 {
     m_pContext = pContext;
-    CreateConstantBuffer();
+    
     if (CreateVertexData())
     {
         CreateVertexBuffer();
+        if (CreateIndexData())
+        {
+            CreateIndexBuffer();
+            
+        }
+        if (SUCCEEDED(LoadShaderAndInputLayout(vsFile, psFile)))
+        {
+            CreateConstantBuffer();
+            return true;
+        }
     }
-    if (CreateIndexData())
-    {
-        CreateIndexBuffer();
-    }
-    if (SUCCEEDED(LoadShaderAndInputLayout(vsFile, psFile)))
-    {
-        return true;
-    }
+    
+    
     return false;
 }
 
@@ -236,7 +240,7 @@ bool KModel::PreRender()
     UINT pOffsets = 0;
     m_pContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer,
         &pStrides, &pOffsets);
-    //m_pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    m_pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
       
     
     return true;
