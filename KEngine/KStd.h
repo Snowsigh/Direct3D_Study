@@ -63,16 +63,16 @@ namespace KBASE
 	static TCHAR g_szDataPath[] = L"../../Data/";
 	static TCHAR g_szPath[] = L"../../";
 
-	static TMatrix DxConvertMatrix(TMatrix mat)
+	static TMatrix DxConvertMatrix(TMatrix m)
 	{
-		TMatrix tmp;
-		tmp._11 = mat._11; tmp._12 = mat._13; tmp._13 = mat._12;
-		tmp._21 = mat._31; tmp._22 = mat._33; tmp._23 = mat._32;
-		tmp._31 = mat._21; tmp._32 = mat._23; tmp._33 = mat._22;
-		tmp._41 = mat._41; tmp._42 = mat._43; tmp._43 = mat._42;
-		tmp._14 = tmp._24 = tmp._34 = 0.0f;
-		tmp._44 = 1.0f;
-		return tmp;
+		TMatrix mat;
+		mat._11 = m._11; mat._12 = m._13; mat._13 = m._12;
+		mat._21 = m._31; mat._22 = m._33; mat._23 = m._32;
+		mat._31 = m._21; mat._32 = m._23; mat._33 = m._22;
+		mat._41 = m._41; mat._42 = m._43; mat._43 = m._42;
+		mat._14 = mat._24 = mat._34 = 0.0f;
+		mat._44 = 1.0f;
+		return mat;
 	}
 
 	static TMatrix ConvertMatrix(FbxMatrix& mat)

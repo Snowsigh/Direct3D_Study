@@ -79,7 +79,7 @@ bool KFbxObj::Render()
 
 		for (int iBone = 0; iBone < pMesh->m_matBindPoseList.size(); iBone++)
 		{
-			TMatrix matAnim = pMesh->m_matBindPoseList[iBone] *
+			TMatrix matAnim = pMesh->m_matBindPoseList[iBone]*
 				pMesh->m_pMeshLinkList[iBone]->m_AnimationTrack[m_kAni.m_iAnimIndex];
 			D3DXMatrixTranspose(&pMesh->m_matAnimMatrix.matAnimation[iBone],
 				&matAnim);
