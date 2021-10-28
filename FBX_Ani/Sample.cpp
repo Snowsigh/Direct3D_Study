@@ -4,7 +4,7 @@ GAME(KGCA, 800, 600);
 
 bool	Sample::Init()
 {
-    m_obj.LoadObject("../../Data/Object/man.FBX",L"../../Data/Shader/CharacterShader.txt", m_pImmediateContext);
+    m_obj.LoadObject("../../Data/Object/multiCamera.FBX",L"../../Data/Shader/CharacterShader.txt", m_pImmediateContext);
     SetUpCamera(TVector3(0, 0, -30), TVector3(0, 0, 0));
 
     m_pObjectList.push_back(&m_obj);

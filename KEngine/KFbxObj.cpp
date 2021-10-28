@@ -124,7 +124,7 @@ bool KFbxObj::Render()
 				m_pContext->PSSetSamplers(0, 1, &pMtrl->m_Texture.m_pSampler);
 				m_pContext->PSSetShaderResources(1, 1, &pMtrl->m_Texture.m_pTextureSRV);
 			}
-			pMesh->SetMatrix(nullptr, &m_kbData.matView, &m_kbData.matProj);
+			pMesh->SetMatrix(&m_kbData.matWorld, &m_kbData.matView, &m_kbData.matProj);
 			pMesh->Render();
 		}
 	}
@@ -227,6 +227,40 @@ void KFbxObj::LoadMaterial(KMtrl* pMtrl)
 				pMtrl->m_Texture.m_szFileName += L"Object/";
 				pMtrl->m_Texture.m_szFileName += KBASE::mtw(szFileName);
 				pMtrl->m_Texture.LoadTexture(pMtrl->m_Texture.m_szFileName);
+			}
+		}
+	}
+}
+
+void KFbxObj::SetPixelShader(ID3D11PixelShader* ps)
+{
+	for (int iMesh = 0; iMesh < m_pMeshList.size(); iMesh++)
+	{
+		KMesh* pMesh = m_pMeshList[iMesh];
+		if (pMesh->m_pSubMesh.size() > 0)
+		{
+			for (int iSubMesh = 0; iSubMesh < m_pMeshList[iMesh]->m_pSubMesh.size(); iSubMesh++)
+			{
+				KMesh* pSubMesh = m_pMeshList[iMesh]->m_pSubMesh[iSubMesh];
+				if (ps == nullptr)
+				{
+					pSubMesh->m_pMainPS = pSubMesh->m_pPS;
+				}
+				else
+				{
+					pSubMesh->m_pMainPS = ps;
+				}
+			}
+		}
+		else
+		{
+			if (ps == nullptr)
+			{
+				pMesh->m_pMainPS = pMesh->m_pPS;
+			}
+			else
+			{
+				pMesh->m_pMainPS = ps;
 			}
 		}
 	}

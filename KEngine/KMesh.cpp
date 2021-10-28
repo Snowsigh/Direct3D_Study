@@ -204,7 +204,7 @@ HRESULT KMesh::LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile)
 		{"COLOR",	0,	DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24,	D3D11_INPUT_PER_VERTEX_DATA, 0}, 
 		{"TEX",		0,	DXGI_FORMAT_R32G32_FLOAT,		0, 40,	D3D11_INPUT_PER_VERTEX_DATA, 0},
 
-		{"INDEX",	0,	DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0}, //아 12바이트 -> 16바이트 임 (float4 = 16바이트)
+		{"INDEX",	0,	DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0}, //아 12바이트 -> 16바이트 임 (float[4] = 16바이트)
 		{"WEIGHT",	0,	DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16,	D3D11_INPUT_PER_VERTEX_DATA, 0}
 		
 	};
@@ -254,7 +254,8 @@ bool KMesh::PreRender()
 
 
 	m_pContext->VSSetShader(m_pVS, NULL, 0);
-	m_pContext->PSSetShader(m_pPS, NULL, 0);
+	m_pContext->PSSetShader(m_pMainPS, NULL, 0);
+
 	m_pContext->IASetInputLayout(m_pVertexLayout);
 
 	ID3D11Buffer* Bf[2] = { m_pVertexBuffer, m_pIWVertrexBuffer };

@@ -37,6 +37,7 @@ class KFbxObj :
 public: //텍스처 및 애니메이션 클래스 인스턴스
     KTexture m_kTexture;
     KFbxAni m_kAni;
+    TMatrix m_matWorld;
 public: // 머테리얼용 자료 리스트
     std::vector<FbxNode*> m_pFbxNodeList;
     std::vector<KMtrl*> m_pMtrlList;
@@ -52,7 +53,8 @@ public:
     bool    Render();
     int     GetRootMtrl(FbxSurfaceMaterial* pFbxMaterial);
     void	LoadMaterial(KMtrl* pMtrl);
-   
+public:
+    void    SetPixelShader(ID3D11PixelShader* ps);
 public:
     void	PreProcess(FbxNode* pNode);
     void	ParseNode(FbxNode* pNode, KMesh* pMesh);

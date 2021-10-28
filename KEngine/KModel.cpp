@@ -55,6 +55,31 @@ KModel::KModel()
     m_pPS = nullptr;
 }
 
+ID3DBlob* KModel::LoadShaderBlob(std::wstring vs, std::string function, std::string version)
+{
+    HRESULT hr = S_OK;
+    ID3DBlob* ret = nullptr;
+    ID3DBlob* error = nullptr;
+    hr = D3DCompileFromFile(
+        vs.c_str(),
+        nullptr,
+        nullptr,
+        function.c_str(),
+        version.c_str(),
+        0,
+        0,
+        &ret,
+        &error);
+    if (FAILED(hr))
+    {
+        MessageBoxA(NULL,
+            (char*)error->GetBufferPointer(),
+            "error", MB_OK);
+        return ret;
+    }
+    return ret;
+}
+
 HRESULT KModel::CreateVertexBuffer()
 {
     HRESULT hr;
@@ -143,10 +168,10 @@ HRESULT KModel::CreateConstantBuffer()
 
 HRESULT KModel::LoadShader(LPCWSTR vsFile, LPCWSTR psFile)
 {
-    HRESULT hr;
+    HRESULT hr = S_OK;
     ID3DBlob* error = nullptr;
-    hr = D3DCompileFromFile(vsFile, nullptr, nullptr, "VertexS", "vs_5_0", 0, 0, &m_pVStemp, &error);
-    if (FAILED(hr))
+    m_pVStemp = LoadShaderBlob(vsFile,"VertexS", "vs_5_0");
+    if (m_pVStemp ==  nullptr)
     {
         MessageBoxA(NULL,
             (char*)error->GetBufferPointer(),
@@ -154,8 +179,9 @@ HRESULT KModel::LoadShader(LPCWSTR vsFile, LPCWSTR psFile)
         return hr;
     }
 
-    hr = D3DCompileFromFile(psFile, nullptr, nullptr, "PixelS", "ps_5_0", 0, 0, &m_pPStemp, &error);
-    if (FAILED(hr))
+    ID3DBlob* PStemp = nullptr;
+    PStemp = LoadShaderBlob(psFile,"PixelS", "ps_5_0");
+    if (PStemp == nullptr)
     {
         MessageBoxA(NULL,
             (char*)error->GetBufferPointer(),
@@ -163,15 +189,17 @@ HRESULT KModel::LoadShader(LPCWSTR vsFile, LPCWSTR psFile)
         return hr;
     }
   
-    hr = g_pd3dDevice->CreatePixelShader(m_pPStemp->GetBufferPointer(), m_pPStemp->GetBufferSize(), NULL, &m_pPS);
+    hr = g_pd3dDevice->CreatePixelShader(PStemp->GetBufferPointer(), PStemp->GetBufferSize(), NULL, &m_pPS);
     HRFAILED
-    m_pPStemp->Release();
+
+    m_pMainPS = m_pPS;
+
+
+    PStemp->Release();
     hr = g_pd3dDevice->CreateVertexShader(m_pVStemp->GetBufferPointer(), m_pVStemp->GetBufferSize(), NULL, &m_pVS);
     HRFAILED
-
-
-
     return hr;
+
 }
 
 bool KModel::CreateVertexData()
@@ -234,7 +262,7 @@ bool KModel::PreRender()
     m_pContext->VSSetConstantBuffers(
         0, 1, &m_pConstantBuffer);
     m_pContext->VSSetShader(m_pVS, NULL, 0);
-    m_pContext->PSSetShader(m_pPS, NULL, 0);
+    m_pContext->PSSetShader(m_pMainPS, NULL, 0);
     m_pContext->IASetInputLayout(m_pVertexLayout);
     UINT pStrides = sizeof(PNCT_VERTEX);
     UINT pOffsets = 0;

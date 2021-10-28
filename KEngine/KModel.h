@@ -33,16 +33,16 @@ public:
 	KB_Data m_kbData;
 	UINT m_iNumIndex;
 
-	ID3D11Buffer* m_pVertexBuffer;
-	ID3D11Buffer* m_pIndexBuffer;
-	ID3D11Buffer* m_pConstantBuffer;
+	ID3D11Buffer* m_pVertexBuffer = nullptr;
+	ID3D11Buffer* m_pIndexBuffer = nullptr;
+	ID3D11Buffer* m_pConstantBuffer = nullptr;
 
-	ID3D11InputLayout* m_pVertexLayout;
-	ID3D11VertexShader* m_pVS;
-	ID3D11PixelShader* m_pPS;
+	ID3D11InputLayout* m_pVertexLayout = nullptr;
+	ID3D11VertexShader* m_pVS = nullptr;
+	ID3D11PixelShader* m_pPS = nullptr;
+	ID3D11PixelShader* m_pMainPS = nullptr;
 
-	ID3DBlob* m_pVStemp;
-	ID3DBlob* m_pPStemp;
+	ID3DBlob* m_pVStemp = nullptr;
 
 	std::vector<PNCT_VERTEX> m_VertexList;
 	std::vector<DWORD> m_IndexList;
@@ -64,7 +64,8 @@ public:
 	virtual	bool Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile);
 
 	virtual	bool LoadObject(std::wstring filename);
-
+public:
+	static ID3DBlob* LoadShaderBlob(std::wstring vs, std::string function, std::string version);
 public:
 
 	virtual bool   Init();

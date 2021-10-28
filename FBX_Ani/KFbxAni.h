@@ -10,12 +10,12 @@ struct KSkinData
 {
 	std::vector<FbxNode*>  m_MatrixList;
 	std::vector<KWeight>   m_VertexList;
+
 };
 class KFbxAni
 {
 private:
 	FbxScene* m_pFbxS;
-
 public:
 
 	bool	m_bAnimPlay = false;
@@ -25,7 +25,9 @@ public:
 	float m_fEndTime;
 	float m_fSampleTime;
 public:
-	bool	SetAni(FbxScene*);
+	bool	SetAni(FbxScene* obj);
+	KMesh* GetFindInedx(FbxNode* pNode, std::vector<KMesh*> pMeshList);
+public:
 	void	ParseAnimationNode(std::vector<KMesh*> pMeshList);
 	void	ParseAnimation();
 	void	ParseAnimStack(FbxString* szData);
