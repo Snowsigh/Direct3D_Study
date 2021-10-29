@@ -5,6 +5,7 @@
 class Sample : public KCore
 {
 public:
+	TVector3 m_vMoePos;
 	KFbxObj m_KObj;
 	TMatrix		m_matShadow;
 	ID3D11PixelShader* m_pPSShadow = nullptr;
