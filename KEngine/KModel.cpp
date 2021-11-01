@@ -134,7 +134,7 @@ HRESULT KModel::LoadShaderAndInputLayout(LPCWSTR vsFile, LPCWSTR psFile)
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 4번째 인자에 넣을 값이 3번째에 들어가있음
-        {"TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0}
+        {"TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0},
     };
     UINT numLayout = sizeof(pInputLayout) / sizeof(pInputLayout[0]);
 
@@ -227,6 +227,30 @@ bool KModel::Init()
 bool KModel::Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile)
 {
     m_pContext = pContext;
+
+    if (CreateVertexData())
+    {
+        CreateVertexBuffer();
+        if (CreateIndexData())
+        {
+            CreateIndexBuffer();
+
+        }
+        
+        if (SUCCEEDED(LoadShaderAndInputLayout(vsFile, psFile)))
+        {
+            CreateConstantBuffer();
+            return true;
+        }
+    }
+
+
+    return false;
+}
+
+bool KModel::Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile, LPCWSTR TexName)
+{
+    m_pContext = pContext;
     
     if (CreateVertexData())
     {
@@ -236,6 +260,7 @@ bool KModel::Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFil
             CreateIndexBuffer();
             
         }
+        LoadTexture(TexName);
         if (SUCCEEDED(LoadShaderAndInputLayout(vsFile, psFile)))
         {
             CreateConstantBuffer();
@@ -244,6 +269,14 @@ bool KModel::Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFil
     }
     
     
+    return false;
+}
+bool KModel::LoadTexture(LPCWSTR TexName)
+{
+    if (!(TexName == L""))
+    {
+        return m_kTex.LoadTexture(TexName);
+    }
     return false;
 }
 
@@ -259,8 +292,8 @@ bool KModel::PreRender()
 
     m_pContext->UpdateSubresource(
         m_pConstantBuffer, 0, NULL, &m_kbData, 0, 0);
-    m_pContext->VSSetConstantBuffers(
-        0, 1, &m_pConstantBuffer);
+    m_pContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
+    m_pContext->PSSetShaderResources(0, 1, &m_kTex.m_pTextureSRV);
     m_pContext->VSSetShader(m_pVS, NULL, 0);
     m_pContext->PSSetShader(m_pMainPS, NULL, 0);
     m_pContext->IASetInputLayout(m_pVertexLayout);
@@ -268,7 +301,9 @@ bool KModel::PreRender()
     UINT pOffsets = 0;
     m_pContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer,
         &pStrides, &pOffsets);
-    m_pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    m_pContext->IASetIndexBuffer(m_pIndexBuffer,
+        DXGI_FORMAT_R32_UINT, 0);
+    return true;
       
     
     return true;
@@ -298,6 +333,7 @@ bool KModel::PostRender(UINT iNumIndex)
 
 bool KModel::Release()
 {
+    m_kTex.Release();
     IFRELEASE(m_pVertexBuffer)
     IFRELEASE(m_pIndexBuffer)
     IFRELEASE(m_pVertexLayout)

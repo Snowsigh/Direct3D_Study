@@ -72,6 +72,9 @@
     <ClCompile Include="KFbxAni.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="KShape.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KCore.h">
@@ -132,6 +135,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="KFbxAni.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="KShape.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

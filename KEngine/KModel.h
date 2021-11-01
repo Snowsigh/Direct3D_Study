@@ -1,7 +1,7 @@
 #pragma once
 #include "KStd.h"
 #include "KDevice.h"
-
+#include "KTexture.h"
 
 struct PNCT_VERTEX
 {
@@ -32,7 +32,8 @@ class KModel
 public:
 	KB_Data m_kbData;
 	UINT m_iNumIndex;
-
+	KTexture m_kTex;
+	
 	ID3D11Buffer* m_pVertexBuffer = nullptr;
 	ID3D11Buffer* m_pIndexBuffer = nullptr;
 	ID3D11Buffer* m_pConstantBuffer = nullptr;
@@ -47,7 +48,8 @@ public:
 	std::vector<PNCT_VERTEX> m_VertexList;
 	std::vector<DWORD> m_IndexList;
 	ID3D11DeviceContext* m_pContext;
-	
+
+	TMatrix m_matWorld;
 public:
 	void		SetMatrix(TMatrix* pMatWorld,
 		TMatrix* pMatView, TMatrix* pMatProj);
@@ -62,17 +64,19 @@ public:
 	virtual	HRESULT LoadShader(LPCWSTR vsFile, LPCWSTR psFile);
 
 	virtual	bool Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile);
-
+	virtual bool Create(ID3D11DeviceContext* pContext, LPCWSTR vsFile, LPCWSTR psFile, LPCWSTR TexName);
 	virtual	bool LoadObject(std::wstring filename);
 public:
 	static ID3DBlob* LoadShaderBlob(std::wstring vs, std::string function, std::string version);
+	bool LoadTexture(LPCWSTR TexName);
 public:
 
-	virtual bool   Init();
-	virtual bool   Frame();
-	virtual bool   PreRender();
-	virtual	bool   Render();
+	virtual bool	 Init();
+	virtual bool	Frame();
+	virtual bool	PreRender();
+	virtual	bool	Render();
 	virtual bool	PostRender(UINT iNumIndex);
+
 	virtual bool   Release();
 	KModel();
 	virtual ~KModel() {};

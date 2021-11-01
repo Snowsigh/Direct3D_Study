@@ -19,8 +19,8 @@ bool KTexture::Release()
 {
     IFRELEASE(m_pTexture)
     IFRELEASE(m_pTextureSRV)
-        IFRELEASE(m_pSampler)
-        m_pSampler = nullptr;
+    IFRELEASE(m_pSampler)
+    m_pSampler = nullptr;
     m_pTexture = nullptr;
     m_pTextureSRV = nullptr;
     return true;

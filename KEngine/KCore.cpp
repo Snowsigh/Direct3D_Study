@@ -133,12 +133,6 @@ bool	KCore::PreRender(){
     float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 0.8f }; //red,green,blue,alpha
     m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, ClearColor);
 
-  
-
-    m_pImmediateContext->ClearDepthStencilView(
-        m_pDepthStencilView,
-        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
     return true;
 }
 bool	KCore::Render() {

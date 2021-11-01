@@ -1,5 +1,86 @@
 #include "KViewRT.h"
 
+bool KViewRT::SetViewPort(UINT Width, UINT Height)
+{
+
+	// Setup the viewport    
+	m_ViewPort.Width = Width;
+	m_ViewPort.Height = Height;
+	m_ViewPort.MinDepth = 0.0f;
+	m_ViewPort.MaxDepth = 1.0f;
+	m_ViewPort.TopLeftX = 0;
+	m_ViewPort.TopLeftY = 0;
+	return true;
+}
+
+TMatrix KViewRT::CreateProjMatrix(float fNear, float fFar, float fFov, float fAspect)
+{
+	D3DXMatrixPerspectiveFovLH(&m_matProj, fFov, fAspect, fNear, fFar);
+	return m_matProj;
+}
+
+bool KViewRT::Create(UINT Width, UINT Height)
+{
+	SetViewPort(Width, Height);
+	CreateProjMatrix(1.0f, 10000.0f, XM_PI * 0.25f,
+		(float)Width / (float)Height);
+	if (FAILED(CreateRenderTargetView(Width, Height)))
+	{
+		return false;
+	}
+	if (FAILED(m_dxDs.CreateDepthStencilView(Width, Height)))
+	{
+		return false;
+	}
+	return false;
+}
+
+bool KViewRT::Begin(ID3D11DeviceContext* pContext)
+{
+	m_nViewPorts = 1;
+	pContext->RSGetViewports(&m_nViewPorts, m_vpOld);
+	pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
+
+	ID3D11RenderTargetView* pRTV = nullptr;
+	ID3D11DepthStencilView* pDSV = nullptr;
+	pContext->OMSetRenderTargets(1, &pRTV, pDSV);
+	ID3D11ShaderResourceView* ppSRVNULL[2] = { NULL, NULL };
+	pContext->PSSetShaderResources(0, 2, ppSRVNULL);
+
+	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; //red,green,blue,alpha
+	pContext->ClearRenderTargetView(
+		this->m_pRenderTargetView, ClearColor);
+	pContext->ClearDepthStencilView(
+		this->m_dxDs.m_pDepthStencilView,
+		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pContext->OMSetRenderTargets(1,
+		&this->m_pRenderTargetView,
+		this->m_dxDs.m_pDepthStencilView);
+	pContext->RSSetViewports(1, &m_ViewPort);
+	return true;
+}
+
+bool KViewRT::End(ID3D11DeviceContext* pContext)
+{
+	ID3D11RenderTargetView* pRTV = nullptr;
+	ID3D11DepthStencilView* pDSV = nullptr;
+	pContext->OMSetRenderTargets(1, &pRTV, pDSV);
+	ID3D11ShaderResourceView* ppSRVNULL[2] = { NULL, NULL };
+	pContext->PSSetShaderResources(0, 2, ppSRVNULL);
+
+	pContext->RSSetViewports(m_nViewPorts, m_vpOld);
+	pContext->OMSetRenderTargets(1, &m_pOldRTV, m_pOldDSV);
+	IFRELEASE(m_pOldRTV);
+	IFRELEASE(m_pOldDSV);
+	return true;
+}
+
+void KViewRT::Save(ID3D11DeviceContext* pContext, std::wstring saveFileName)
+{
+	
+}
+
 ID3D11Texture2D* KViewRT::CreateTexture(UINT Width, UINT Height)
 {
 	HRESULT hr = S_OK;
@@ -70,6 +151,7 @@ HRESULT KViewRT::CreateRenderTargetView(UINT Width, UINT Height)
 
 bool KViewRT::Release()
 {
+	m_dxDs.Release();
 	IFRELEASE(m_pDSTexture);
 	IFRELEASE(m_pTextureSRV);
 	IFRELEASE(m_pRenderTargetView);
