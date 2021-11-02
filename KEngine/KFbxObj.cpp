@@ -97,7 +97,6 @@ bool KFbxObj::Render()
 					m_pMtrlList[pMesh->GetRef()]->m_pSubMtrl[iSub];
 				if (pSubMtrl->m_Texture.m_pTextureSRV != nullptr)
 				{
-					m_pContext->PSSetSamplers(0, 1, &pSubMtrl->m_Texture.m_pSampler);
 					m_pContext->PSSetShaderResources(1, 1, &pSubMtrl->m_Texture.m_pTextureSRV);
 				}
 				// 스키닝도 서브메터리얼 사용 가능함.
@@ -109,7 +108,7 @@ bool KFbxObj::Render()
 						= pMesh->m_matAnimMatrix.matAnimation[iBone];
 				}
 				pMesh->m_pSubMesh[iSub]->SetMatrix(nullptr,
-					&m_kbData.matView, &m_kbData.matProj);
+					&m_kbData.matView, &m_kbData.matProj, nullptr);
 				pMesh->m_pSubMesh[iSub]->Render();
 			}
 		}
@@ -121,10 +120,9 @@ bool KFbxObj::Render()
 			}			
 			if (pMtrl != nullptr)
 			{
-				m_pContext->PSSetSamplers(0, 1, &pMtrl->m_Texture.m_pSampler);
 				m_pContext->PSSetShaderResources(1, 1, &pMtrl->m_Texture.m_pTextureSRV);
 			}
-			pMesh->SetMatrix(&m_kbData.matWorld, &m_kbData.matView, &m_kbData.matProj);
+			pMesh->SetMatrix(&m_kbData.matWorld, &m_kbData.matView, &m_kbData.matProj, nullptr);
 			pMesh->Render();
 		}
 	}

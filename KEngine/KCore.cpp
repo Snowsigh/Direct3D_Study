@@ -32,6 +32,8 @@ bool	KCore::GameRun()
 bool	KCore::GameInit()
 {
     KDevice::SetDevice();
+    KDxState::Init();
+
     SetWireFrame();
     m_kTimer.Init();
     g_Input.Init();
@@ -87,6 +89,7 @@ bool	KCore::GameFrame()
 bool	KCore::GameRender()
 {
     PreRender();
+    
     m_kTimer.Render();
     m_kWrite.Render();
     g_Input.Render();
@@ -108,6 +111,7 @@ bool	KCore::GameRender()
 bool	KCore::GameRelease()
 {
     m_kTimer.Release();
+    KDxState::Release();
     g_Input.Release();
     m_kWrite.Release();
     m_pRsSolid->Release();
@@ -131,7 +135,20 @@ bool	KCore::Frame() {
 bool	KCore::PreRender(){
 
     float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 0.8f }; //red,green,blue,alpha
-    m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, ClearColor);
+    m_pImmediateContext->ClearRenderTargetView(m_DefaultRT.m_pRenderTargetView, ClearColor);
+
+    m_pImmediateContext->ClearDepthStencilView(
+        m_DefaultDS.m_pDepthStencilView,
+        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+    m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    m_pImmediateContext->OMSetRenderTargets(1,
+        &m_DefaultRT.m_pRenderTargetView, m_DefaultDS.m_pDepthStencilView);
+
+
+    ApplyDSS(m_pImmediateContext, KDxState::g_pLessEqualDSS);
+    ApplySS(m_pImmediateContext, KDxState::g_pWrapSS, 0);
+    ApplyRS(m_pImmediateContext, KDxState::g_pRSSolid);
+
 
     return true;
 }

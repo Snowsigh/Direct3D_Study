@@ -1,9 +1,6 @@
 #pragma once
-#include "KStd.h"
 #include "KInput.h"
-
-
-
+#include "KViewRT.h"
 class KDevice 
 {
 public:
@@ -18,7 +15,9 @@ public:
 	D3D_FEATURE_LEVEL       m_FeatureLevel;		// DirectX의 기능수준
 	ID3D11DepthStencilView* m_pDepthStencilView; // depth
 	ID3D11DepthStencilState* m_pDsvState; // depth
-	
+public:
+	KViewDs m_DefaultDS;
+	KViewRT m_DefaultRT;
 public:
 	void DX_CHECK(HRESULT hr, const TCHAR* funtion);
 	HRESULT	CreateDevice();
@@ -30,8 +29,7 @@ public:
 	bool CleanupDevice();
 	bool SetDevice();
 public:
-	HRESULT     CreateDepthStencilView();
-	HRESULT     CreateDepthStencilState();
+	HRESULT SetDepthStencilView();
 public:
 	KDevice(void);
 	virtual ~KDevice(void);

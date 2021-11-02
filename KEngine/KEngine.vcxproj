@@ -163,6 +163,7 @@ copy "*.h" "..\\..\\Include\\"
     <ClCompile Include="KCamara.cpp" />
     <ClCompile Include="KCore.cpp" />
     <ClCompile Include="KDevice.cpp" />
+    <ClCompile Include="KDxState.cpp" />
     <ClCompile Include="KFbxAni.cpp" />
     <ClCompile Include="KFbxObj.cpp" />
     <ClCompile Include="KInput.cpp" />
@@ -177,6 +178,8 @@ copy "*.h" "..\\..\\Include\\"
     <ClCompile Include="KTexture.cpp" />
     <ClCompile Include="KTimer.cpp" />
     <ClCompile Include="KVector.cpp" />
+    <ClCompile Include="KViewDs.cpp" />
+    <ClCompile Include="KViewRT.cpp" />
     <ClCompile Include="KWindow.cpp" />
     <ClCompile Include="KWrite.cpp" />
     <ClCompile Include="TMath.cpp" />
@@ -185,6 +188,7 @@ copy "*.h" "..\\..\\Include\\"
     <ClInclude Include="KCamara.h" />
     <ClInclude Include="KCore.h" />
     <ClInclude Include="KDevice.h" />
+    <ClInclude Include="KDxState.h" />
     <ClInclude Include="KFbxAni.h" />
     <ClInclude Include="KFbxObj.h" />
     <ClInclude Include="KInput.h" />
@@ -200,6 +204,8 @@ copy "*.h" "..\\..\\Include\\"
     <ClInclude Include="KTexture.h" />
     <ClInclude Include="KTimer.h" />
     <ClInclude Include="KVector.h" />
+    <ClInclude Include="KViewDs.h" />
+    <ClInclude Include="KViewRT.h" />
     <ClInclude Include="KWindow.h" />
     <ClInclude Include="KWrite.h" />
     <ClInclude Include="TMath.h" />

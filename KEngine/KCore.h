@@ -4,13 +4,8 @@
 #include "KTimer.h"
 #include "KInput.h"
 #include "KWrite.h"
-#include "KStd.h"
-#include "KMap.h"
-#include "KObject.h"
 #include "KCamara.h"
-#include "KQuadTree.h"
-#include "KTexture.h"
-#include "KFbxObj.h"
+#include "KDxState.h"
 class KCore : public KWindow
 {
 
@@ -24,13 +19,10 @@ private:
 public:
 	KTimer m_kTimer;
 	KWrite m_kWrite;
-	KModel m_kModel;
-	
 	bool		m_bDebugText = false;
 public:
 		bool SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos);
 		KDebugCamera m_kCamera;
-
 public:
 	bool SetWireFrame();
 	ID3D11RasterizerState* m_pRsWire;

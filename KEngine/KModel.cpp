@@ -1,6 +1,6 @@
 #include "KModel.h"
 
-void KModel::SetMatrix(TMatrix* pMatWorld, TMatrix* pMatView, TMatrix* pMatProj)
+void KModel::SetMatrix(TMatrix* pMatWorld, TMatrix* pMatView, TMatrix* pMatProj, TMatrix* pMatNormal)
 {
     if (pMatWorld != nullptr)
     {
@@ -13,6 +13,10 @@ void KModel::SetMatrix(TMatrix* pMatWorld, TMatrix* pMatView, TMatrix* pMatProj)
     if (pMatProj != nullptr)
     {
         m_kbData.matProj = pMatProj->Transpose();
+    }
+    if (pMatNormal != nullptr)
+    {
+        m_kbData.matNormal = pMatNormal->Transpose();
     }
 }
 bool KModel::LoadObject(std::wstring filename)

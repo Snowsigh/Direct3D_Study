@@ -24,6 +24,7 @@ struct KB_Data
 	TMatrix matWorld;
 	TMatrix matView;
 	TMatrix matProj;
+	TMatrix matNormal;
 	TVector4 matTime;
 };
 
@@ -52,7 +53,7 @@ public:
 	TMatrix m_matWorld;
 public:
 	void		SetMatrix(TMatrix* pMatWorld,
-		TMatrix* pMatView, TMatrix* pMatProj);
+		TMatrix* pMatView, TMatrix* pMatProj, TMatrix* pMatNormal);
 	virtual bool	CreateVertexData();
 	virtual	bool CreateIndexData() ;
 	virtual	HRESULT CreateIndexBuffer() ;

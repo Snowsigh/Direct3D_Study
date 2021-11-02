@@ -1,7 +1,15 @@
 #include "KDevice.h"
 ID3D11Device* g_pd3dDevice = nullptr;
 HRESULT hr;
-
+HRESULT KDevice::SetDepthStencilView()
+{
+	
+	DXGI_SWAP_CHAIN_DESC Desc;
+	m_pSwapChain->GetDesc(&Desc);
+	hr = m_DefaultDS.CreateDepthStencilView(Desc.BufferDesc.Width,
+		Desc.BufferDesc.Height);
+	return hr;
+}
 HRESULT KDevice::CreateDevice()
 {
 	UINT createDeviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -58,27 +66,13 @@ HRESULT KDevice::CreateSwapChain(HWND hWnd, UINT iWidth, UINT iHeight)
 }
 HRESULT	KDevice::SetRenderTargetView()
 {
-	HRESULT hr;
 	ID3D11Texture2D* pBackBuffer;
-
-	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-	if (FAILED(hr))
+	if (FAILED(hr = m_pSwapChain->GetBuffer(
+		0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer), hr))
 	{
-		DX_CHECK(hr, _T(__FUNCTION__));
 		return hr;
 	}
-
-	assert(pBackBuffer);
-	hr = m_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRenderTargetView);
-	if (FAILED(hr))
-	{
-		DX_CHECK(hr, _T(__FUNCTION__));
-		pBackBuffer->Release();
-		return hr;
-	}
-	pBackBuffer->Release();
-
-	m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
+	m_DefaultRT.SetRenderTargetView(pBackBuffer);
 
 	return hr;
 
@@ -101,6 +95,8 @@ HRESULT	KDevice::SetViewPort()
 }
 bool KDevice::CleanupDevice()
 {
+	m_DefaultDS.Release();
+	m_DefaultRT.Release();
 	
 	if (m_pImmediateContext) m_pImmediateContext->ClearState();
 	IFRELEASE(m_pRenderTargetView)
@@ -151,37 +147,21 @@ bool KDevice::SetDevice()
 	{
 		return false;
 	}
-	if (FAILED(SetViewPort()))
+	if (FAILED(SetDepthStencilView()))
 	{
 		return false;
 	}
-	if (FAILED(CreateDepthStencilState()))
+	if (FAILED(SetViewPort()))
 	{
 		return false;
 	}
 	return true;
 
 }
-
-
-HRESULT KDevice::CreateDepthStencilState()
-{
-	HRESULT hr = S_OK;
-	D3D11_DEPTH_STENCIL_DESC sd;
-	ZeroMemory(&sd, sizeof(D3D11_DEPTH_STENCIL_DESC));
-	sd.DepthEnable = TRUE;
-	sd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	sd.DepthFunc = D3D11_COMPARISON_LESS_EQUAL; //0~1 Depth 공간을 어떻게 처리할 것인가, LESS_EQUAL
-	hr = m_pd3dDevice->CreateDepthStencilState(&sd, &m_pDsvState);
-	if (FAILED(hr))
-	{
-		return hr;
-	}
-	m_pImmediateContext->OMSetDepthStencilState(m_pDsvState, 0x01);
-	return hr;
-}
 KDevice::KDevice(void)
 {
+
+
 	m_pd3dDevice = NULL;		
 	m_pSwapChain = NULL;		
 	m_pRenderTargetView = NULL;		

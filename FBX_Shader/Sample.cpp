@@ -4,25 +4,19 @@ GAME(KGCA, 800, 600);
 
 bool	Sample::Init()
 {
+    m_matTex._11 = 0.5f; m_matTex._22 = -0.5f; // x * 0.5, y * -0.5
+    m_matTex._41 = 0.5f; m_matTex._42 = 0.5f; // x + 0.5, y + 0.5
+
+    m_kLight1.Set(TVector3(100, 150, 100), TVector3(0, 0, 0));
+
     m_kMini.Create(m_pImmediateContext, L"../../Data/Shader/PlaneVS.txt", L"../../Data/Shader/PlanePS.txt");
-    m_kPlane.Create(m_pImmediateContext, L"../../Data/Shader/PlaneVS.txt", L"../../Data/Shader/PlanePS.txt", L"../../Data/air.bmp");
+    m_kPlane.Create(m_pImmediateContext, L"../../Data/Shader/ProjShader.txt", L"../../Data/Shader/ProjShader.txt", L"../../Data/air.bmp");
     TMatrix matWorld, matScale;
     D3DXMatrixRotationX(&matWorld, XM_PI / 2.0f);
     D3DXMatrixScaling(&matScale, 100.0f, 100.0f, 100.0f);
     m_kPlane.m_matWorld = matScale * matWorld;
     m_kRt.Create(4096, 4096);
 
-    TPlane p;
-    p.x = 0.0f;
-    p.y = 1.0f;
-    p.z = 0.0f;
-    p.w = 0.0f;
-    TVector4 v;
-    v.x = 100.0f;
-    v.y = 100.0f;
-    v.z = 100.0f;
-    v.w = 0.0f;
-    D3DXMatrixShadow(&m_matShadow, &v, &p);
 
     ID3DBlob* PSBlob = nullptr;
     PSBlob = KModel::LoadShaderBlob(L"../../Data/Shader/CharacterShader.txt",
@@ -52,6 +46,9 @@ bool	Sample::Frame()
 {
     
     m_KObj.Frame();
+    m_kLight1.Frame();
+    m_kbShadow.g_matShadow1 = m_kLight1.m_matView * m_kLight1.m_matProj * m_matTex;
+    
     if (g_Input.GetKey(VK_UP) >= KEY_PUSH)
     {
         m_vMoePos.z += g_fSPF * 100.0f;
@@ -77,20 +74,25 @@ bool	Sample::Frame()
 }
 bool	Sample::Render()
 {
-    m_pImmediateContext->RSSetState(m_pRsSolid);
+
+    ApplyRS(m_pImmediateContext, KDxState::g_pRSSolid);
     
     if (m_kRt.Begin(m_pImmediateContext))
     {
-        m_KObj.SetMatrixNoTranspose(&m_KObj.m_matWorld, &m_kCamera.m_matView, &m_kCamera.m_matProj);
+        m_KObj.SetMatrixNoTranspose(&m_KObj.m_matWorld, &m_kLight1.m_matView, &m_kLight1.m_matProj);
         m_KObj.SetPixelShader(m_pPSShadow);
         m_KObj.Render();
         m_kRt.End(m_pImmediateContext);
     }
-    
-    m_kPlane.SetMatrix(&m_kPlane.m_matWorld, &m_kCamera.m_matView, &m_kCamera.m_matProj);
+    ApplySS(m_pImmediateContext, KDxState::g_pClampSS,1);
+
+    m_kPlane.m_kbData.matNormal = m_kbShadow.g_matShadow1;
+
+    m_kPlane.SetMatrix(&m_kPlane.m_matWorld, &m_kCamera.m_matView, &m_kCamera.m_matProj, &m_kPlane.m_kbData.matNormal);
+    m_pImmediateContext->PSSetShaderResources(1, 1, &m_kRt.m_pTextureSRV);
     m_kPlane.Render();
 
-    m_kMini.SetMatrix(nullptr, nullptr, nullptr);
+    m_kMini.SetMatrix(nullptr, nullptr, nullptr,nullptr);
     m_kMini.PreRender();
     m_pImmediateContext->PSSetShaderResources(0, 1, &m_kRt.m_pTextureSRV);
     m_kMini.PostRender(m_kMini.m_iNumIndex);
