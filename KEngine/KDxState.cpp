@@ -57,10 +57,12 @@ HRESULT    KDxState::CreateRasterizerState()
 	HRESULT hr = S_OK;
 	D3D11_RASTERIZER_DESC rd;
 	ZeroMemory(&rd, sizeof(D3D11_RASTERIZER_DESC));
+	rd.DepthClipEnable = TRUE;
 	rd.FillMode = D3D11_FILL_WIREFRAME;
 	rd.CullMode = D3D11_CULL_BACK;
 	hr = g_pd3dDevice->CreateRasterizerState(&rd, &g_pRSWireFrame);
 	ZeroMemory(&rd, sizeof(D3D11_RASTERIZER_DESC));
+	rd.DepthClipEnable = TRUE;
 	rd.FillMode = D3D11_FILL_SOLID;
 	rd.CullMode = D3D11_CULL_BACK;
 	hr = g_pd3dDevice->CreateRasterizerState(&rd, &g_pRSSolid);

@@ -35,7 +35,7 @@ bool	Sample::Init()
     
 
     m_KObj.LoadObject("../../Data/Object/man.FBX",L"../../Data/Shader/CharacterShader.txt",m_pImmediateContext);
-    SetUpCamera(TVector3(0,0,-30),TVector3(0,0,0));
+    SetUpCamera(TVector3(0,0,-30),TVector3(0,0,0), 300.0f);
 
 
     

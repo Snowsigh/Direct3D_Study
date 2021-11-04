@@ -21,7 +21,7 @@ public:
 	KWrite m_kWrite;
 	bool		m_bDebugText = false;
 public:
-		bool SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos);
+		bool SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos, float vDistance);
 		KDebugCamera m_kCamera;
 public:
 	bool SetWireFrame();

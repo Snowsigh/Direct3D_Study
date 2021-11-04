@@ -24,7 +24,7 @@ public:
 	bool    Begin(ID3D11DeviceContext* pContext);
 	bool    End(ID3D11DeviceContext* pContext);
 	void	Save(ID3D11DeviceContext* pContext, std::wstring saveFileName);
-	ID3D11Texture2D*	CreateTexture(UINT Width, UINT Height);
+	ID3D11Texture2D* CreateTexture(UINT Width, UINT Height);
 	HRESULT				SetRenderTargetView(ID3D11Texture2D* pTexture);
 	HRESULT				CreateRenderTargetView(UINT Width, UINT Height);
 	bool				Release();

@@ -22,7 +22,7 @@ public:
 	virtual TMatrix     CreateViewMatrix(TVector3 vPos, TVector3 vTarget, TVector3 vUp = TVector3(0, 1, 0));
 	virtual TMatrix  	CreateProjMatrix(float fNear, float fFar, float fFov, float fAspect);
 public:
-	virtual bool		Init(TVector3 vCameraPos, TVector3 vTargetPos);
+	virtual bool		Init(TVector3 vCameraPos, TVector3 vTargetPos, float);
 	virtual bool		Frame();
 	virtual bool		Render();
 	virtual bool		Release();

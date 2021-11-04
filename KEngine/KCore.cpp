@@ -3,9 +3,9 @@ LRESULT KCore::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     return g_Input.MsgProc(hWnd, message, wParam, lParam);
 }
-bool KCore::SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos)
+bool KCore::SetUpCamera(TVector3 vCameraPos, TVector3 vTargetPos, float vDist)
 {
-    if (m_kCamera.Init(vCameraPos, vTargetPos)) return true;
+    if (m_kCamera.Init(vCameraPos, vTargetPos, vDist)) return true;
     return false;
 }
 bool KCore::SetWireFrame()

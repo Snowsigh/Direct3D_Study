@@ -10,16 +10,11 @@ ID3D11Texture2D* KViewDs::CreateTexture(UINT Width, UINT Height)
 	DescDepth.Height = Height;
 	DescDepth.MipLevels = 1;
 	DescDepth.ArraySize = 1;
-	DescDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	DescDepth.Format = DXGI_FORMAT_R24G8_TYPELESS;
 	DescDepth.SampleDesc.Count = 1;
 	DescDepth.SampleDesc.Quality = 0;
 	DescDepth.Usage = D3D11_USAGE_DEFAULT;
-
-	// ¹é ¹öÆÛ ±íÀÌ ¹× ½ºÅÙ½Ç ¹öÆÛ »ý¼º
-	if (DescDepth.Format == DXGI_FORMAT_D24_UNORM_S8_UINT)
-		DescDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	else // ±íÀÌ¸Ê Àü¿ë ±íÀÌ¸Ê »ý¼º
-		DescDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	DescDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
 	DescDepth.CPUAccessFlags = 0;
 	DescDepth.MiscFlags = 0;
 	if (FAILED(hr = g_pd3dDevice->CreateTexture2D(&DescDepth, NULL, &pDSTexture)))
@@ -42,11 +37,22 @@ HRESULT KViewDs::CreateDepthStencilView(UINT Width, UINT Height)
 	ZeroMemory(&svd, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
 	svd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	svd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	svd.Texture2D.MipSlice = 0;
 	hr = g_pd3dDevice->CreateDepthStencilView(m_pTexture, &svd,
 		&m_pDepthStencilView);
 	if (FAILED(hr))
 	{
+		return hr;
+	}
+	D3D11_SHADER_RESOURCE_VIEW_DESC Desc;
+	ZeroMemory(&Desc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+	Desc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+	Desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	Desc.Texture2D.MipLevels = 1;
+	hr = g_pd3dDevice->CreateShaderResourceView(m_pTexture,
+		&Desc, &m_pTextureSRV);
+	if (FAILED(hr))
+	{
+		m_pTexture->Release();
 		return hr;
 	}
 	return hr;
@@ -57,5 +63,5 @@ bool KViewDs::Release()
 	IFRELEASE(m_pTexture);
 	IFRELEASE(m_pTextureSRV);
 	IFRELEASE(m_pDepthStencilView);
-    return false;
+	return false;
 }

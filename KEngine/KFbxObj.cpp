@@ -24,7 +24,7 @@ bool KFbxObj::LoadObject(std::string filename, LPCWSTR shadername, ID3D11DeviceC
 	ParseNode(m_pRootNode, nullptr);
 	m_kAni.ParseAnimationNode(m_pMeshList);
 
-	for (int iMesh = 0; iMesh < m_pMeshList.size(); iMesh++) // 서브텍스처
+	for (int iMesh = 0; iMesh < m_pMeshList.size(); iMesh++) 
 	{
 		KMesh* pMesh = m_pMeshList[iMesh];
 		for (int iBone = 0; iBone < pMesh->m_pFNodeList.size(); iBone++)
@@ -44,7 +44,7 @@ bool KFbxObj::LoadObject(std::string filename, LPCWSTR shadername, ID3D11DeviceC
 		{
 			pMesh->Create(pContext, shadername, shadername);
 		}
-	}
+	} 
 	m_pFbxScene->Destroy();
 	m_pFbxImporter->Destroy();
 	m_pFbxManager->Destroy();

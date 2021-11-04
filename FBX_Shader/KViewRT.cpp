@@ -77,7 +77,7 @@ bool KViewRT::End(ID3D11DeviceContext* pContext)
 
 void KViewRT::Save(ID3D11DeviceContext* pContext, std::wstring saveFileName)
 {
-	
+
 }
 
 ID3D11Texture2D* KViewRT::CreateTexture(UINT Width, UINT Height)

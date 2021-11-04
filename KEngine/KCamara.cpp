@@ -25,10 +25,10 @@ TMatrix KCamera::CreateProjMatrix(float fNear, float fFar, float fFov, float fAs
     return m_matProj;
 }
 
-bool KCamera::Init(TVector3 vCameraPos, TVector3 vTargetPos)
+bool KCamera::Init(TVector3 vCameraPos, TVector3 vTargetPos, float vDistance)
 {
     CreateViewMatrix(vCameraPos, vTargetPos);
-    CreateProjMatrix(1.0f, 1000.0f, TBASIS_PI * 0.5f, (float)g_rtClient.right / (float)g_rtClient.bottom);
+    CreateProjMatrix(1.0f, vDistance, TBASIS_PI * 0.5f, (float)g_rtClient.right / (float)g_rtClient.bottom);
     return true;
 }
 
